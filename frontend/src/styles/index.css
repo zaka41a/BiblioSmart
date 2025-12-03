@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  * {
+    @apply border-surface-border;
+  }
+
+  body {
+    @apply font-sans antialiased text-slate-900;
+    background: #f8fafc;
+  }
+
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  a {
+    @apply text-brand-primary hover:text-brand-secondary transition-all duration-200;
+  }
+
+  ::selection {
+    background: #0EA5E9;
+    color: white;
+  }
+}
+
+@layer components {
+  /* Premium Card Styles */
+  .card-premium {
+    @apply bg-white/80 backdrop-blur-sm border border-surface-border rounded-3xl shadow-soft-md
+           hover:shadow-soft-lg transition-all duration-300;
+  }
+
+  .card-glass {
+    @apply bg-white/60 backdrop-blur-md border border-white/20 rounded-3xl shadow-soft-lg;
+  }
+
+  /* Custom Scrollbar */
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    @apply bg-slate-300/60 rounded-full;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    @apply bg-slate-400/60;
+  }
+
+  /* Premium Gradient Text - Logo Color ONLY */
+  .text-gradient {
+    color: #0EA5E9;
+  }
+
+  /* Shimmer Effect */
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: shimmer 2s infinite;
+  }
+
+  /* Floating Animation */
+  .float {
+    @apply animate-float;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
