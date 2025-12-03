@@ -161,13 +161,14 @@ export const Home = () => {
             <div className="flex flex-wrap items-center gap-4">
               <Link
                 to="/catalogue"
-                className="group relative overflow-hidden rounded-full bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 px-10 py-5 font-bold text-white shadow-soft-xl transition-all hover:scale-105 hover:shadow-glow-lg"
+                className="group relative overflow-hidden rounded-full bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 px-10 py-5 font-bold text-white shadow-soft-xl transition-all hover:scale-105 hover:shadow-glow-lg hover:bg-white"
               >
-                <span className="relative z-10 flex items-center gap-3">
+                <span className="relative z-10 flex items-center gap-3 group-hover:text-emerald-600 transition-colors">
                   <FiZap className="h-6 w-6" />
                   Explore Library
                   <ArrowRightIcon className="h-5 w-5 transition-transform group-hover:translate-x-1" />
                 </span>
+                <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-100 transition-opacity rounded-full" />
               </Link>
               <Link
                 to="/demonstration"
@@ -302,11 +303,8 @@ export const Home = () => {
       </section>
 
       {/* Benefits Section */}
-      <section className="relative overflow-hidden rounded-[3rem] bg-gradient-to-br from-slate-50 to-white p-16 shadow-soft-xl">
-        <div className="absolute right-0 top-0 h-96 w-96 rounded-full bg-brand-primary/5 blur-3xl" />
-        <div className="absolute bottom-0 left-0 h-96 w-96 rounded-full bg-brand-purple/5 blur-3xl" />
-
-        <div className="relative">
+      <section className="rounded-[3rem] bg-gradient-to-br from-slate-50 to-white p-16 shadow-soft-xl">
+        <div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
