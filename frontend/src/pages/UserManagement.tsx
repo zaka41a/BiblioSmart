@@ -8,7 +8,9 @@ import {
   FiShield,
   FiUser,
   FiMail,
-  FiCalendar
+  FiX,
+  FiSave,
+  FiLock
 } from "react-icons/fi";
 
 export const UserManagement = () => {
@@ -16,11 +18,62 @@ export const UserManagement = () => {
   const [users, setUsers] = useState(() => {
     return JSON.parse(localStorage.getItem("bibliosmart_registered_users") || "[]");
   });
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingUser, setEditingUser] = useState<any>(null);
+  const [editFormData, setEditFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    role: "user" as "user" | "admin"
+  });
 
   const filteredUsers = users.filter((user: any) =>
     user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     user.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const handleEdit = (user: any) => {
+    setEditingUser(user);
+    setEditFormData({
+      name: user.name,
+      email: user.email,
+      password: user.password || "",
+      role: user.role
+    });
+    setIsEditModalOpen(true);
+  };
+
+  const handleSaveEdit = () => {
+    if (!editingUser) return;
+
+    const updatedUsers = users.map((user: any) => {
+      if (user.id === editingUser.id) {
+        return {
+          ...user,
+          name: editFormData.name,
+          email: editFormData.email,
+          password: editFormData.password,
+          role: editFormData.role
+        };
+      }
+      return user;
+    });
+
+    setUsers(updatedUsers);
+    localStorage.setItem("bibliosmart_registered_users", JSON.stringify(updatedUsers));
+    resetEditForm();
+  };
+
+  const resetEditForm = () => {
+    setIsEditModalOpen(false);
+    setEditingUser(null);
+    setEditFormData({
+      name: "",
+      email: "",
+      password: "",
+      role: "user"
+    });
+  };
 
   const handleToggleRole = (userId: string) => {
     const updatedUsers = users.map((user: any) => {
@@ -42,177 +95,232 @@ export const UserManagement = () => {
   };
 
   return (
-    <div className="space-y-8">
-      {/* Header */}
-      <motion.header
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 p-10 shadow-soft-lg border border-emerald-200/30"
-      >
-        <div className="absolute right-0 top-0 h-64 w-64 rounded-full bg-emerald-500/15 blur-3xl animate-pulse" style={{ animationDuration: '4s' }} />
-
-        <div className="relative space-y-4">
-          <div className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-cyan-500/10 px-4 py-2 backdrop-blur-sm">
-            <FiUsers className="h-5 w-5 text-emerald-600" />
-            <span className="text-sm font-semibold bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 bg-clip-text text-transparent">User Management</span>
-          </div>
-          <h1 className="text-4xl font-bold text-slate-900 md:text-5xl">
-            Manage <span className="bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 bg-clip-text text-transparent">Users</span>
-          </h1>
-          <p className="mt-2 text-lg text-slate-600">
-            View and manage all registered users in your system
-          </p>
-        </div>
-      </motion.header>
-
-      {/* Stats */}
-      <div className="grid gap-6 md:grid-cols-3">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="rounded-3xl bg-white p-6 shadow-soft-lg"
-        >
-          <div className="flex items-center gap-4">
-            <div className="rounded-2xl bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 p-4">
-              <FiUsers className="h-8 w-8 text-white" />
-            </div>
-            <div>
-              <p className="text-3xl font-bold text-slate-900">{users.length}</p>
-              <p className="text-sm font-medium text-slate-600">Total Users</p>
-            </div>
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="rounded-3xl bg-white p-6 shadow-soft-lg"
-        >
-          <div className="flex items-center gap-4">
-            <div className="rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-500 p-4">
-              <FiUser className="h-8 w-8 text-white" />
-            </div>
-            <div>
-              <p className="text-3xl font-bold text-slate-900">
-                {users.filter((u: any) => u.role === "user").length}
-              </p>
-              <p className="text-sm font-medium text-slate-600">Regular Users</p>
-            </div>
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="rounded-3xl bg-white p-6 shadow-soft-lg"
-        >
-          <div className="flex items-center gap-4">
-            <div className="rounded-2xl bg-gradient-to-br from-amber-500 to-orange-500 p-4">
-              <FiShield className="h-8 w-8 text-white" />
-            </div>
-            <div>
-              <p className="text-3xl font-bold text-slate-900">
-                {users.filter((u: any) => u.role === "admin").length}
-              </p>
-              <p className="text-sm font-medium text-slate-600">Administrators</p>
-            </div>
-          </div>
-        </motion.div>
-      </div>
-
+    <div className="space-y-6">
       {/* Search Bar */}
-      <div className="relative">
-        <FiSearch className="absolute left-6 top-1/2 h-6 w-6 -translate-y-1/2 text-slate-400" />
-        <input
-          type="search"
-          placeholder="Search by name or email..."
-          className="w-full rounded-2xl border-2 border-slate-200 bg-white px-16 py-4 text-base text-slate-700 transition-all placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-500/10"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
+      <div className="rounded-lg bg-white p-4 shadow-md border border-slate-200">
+        <div className="relative">
+          <FiSearch className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
+          <input
+            type="search"
+            placeholder="Search by name or email..."
+            className="w-full rounded-md border border-slate-300 bg-white pl-10 pr-4 py-2 text-slate-900 transition-colors placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
       </div>
 
-      {/* Users Table */}
-      <div className="rounded-3xl bg-white p-6 shadow-soft-lg">
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-xl font-bold text-slate-900">All Users ({filteredUsers.length})</h2>
+      {/* Users List */}
+      <div className="rounded-lg bg-white shadow-md border border-slate-200 overflow-hidden">
+        <div className="border-b border-slate-200 bg-slate-50 px-6 py-3">
+          <h2 className="font-semibold text-slate-900">
+            All Users ({filteredUsers.length})
+          </h2>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b-2 border-slate-200">
-                <th className="pb-4 text-left text-sm font-semibold text-slate-700">Name</th>
-                <th className="pb-4 text-left text-sm font-semibold text-slate-700">Email</th>
-                <th className="pb-4 text-left text-sm font-semibold text-slate-700">Role</th>
-                <th className="pb-4 text-left text-sm font-semibold text-slate-700">User ID</th>
-                <th className="pb-4 text-right text-sm font-semibold text-slate-700">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredUsers.map((user: any, index: number) => (
-                <motion.tr
-                  key={user.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05 }}
-                  className="border-b border-slate-100 transition-colors hover:bg-slate-50"
-                >
-                  <td className="py-4">
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 text-white font-bold">
-                        {user.name.charAt(0).toUpperCase()}
-                      </div>
-                      <span className="text-sm font-medium text-slate-900">{user.name}</span>
+        <div className="divide-y divide-slate-200">
+          {filteredUsers.length > 0 ? (
+            filteredUsers.map((user: any) => (
+              <div
+                key={user.id}
+                className="flex items-center justify-between p-6 hover:bg-slate-50 transition-colors"
+              >
+                <div className="flex items-center gap-4 flex-1">
+                  {/* Avatar */}
+                  <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-blue-600 text-white font-bold">
+                    {user.name.charAt(0).toUpperCase()}
+                  </div>
+
+                  {/* User Info */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <h3 className="font-semibold text-slate-900">{user.name}</h3>
+                      {user.role === "admin" ? (
+                        <span className="inline-flex items-center gap-1 rounded-md bg-orange-100 px-2 py-0.5 text-xs font-semibold text-orange-700">
+                          <FiShield className="h-3 w-3" />
+                          Admin
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 rounded-md bg-blue-100 px-2 py-0.5 text-xs font-semibold text-blue-700">
+                          <FiUser className="h-3 w-3" />
+                          User
+                        </span>
+                      )}
                     </div>
-                  </td>
-                  <td className="py-4">
                     <div className="flex items-center gap-2 text-sm text-slate-600">
                       <FiMail className="h-4 w-4" />
                       {user.email}
                     </div>
-                  </td>
-                  <td className="py-4">
-                    {user.role === "admin" ? (
-                      <span className="flex items-center gap-1 rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-700">
-                        <FiShield className="h-3 w-3" />
-                        Admin
-                      </span>
-                    ) : (
-                      <span className="flex items-center gap-1 rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700">
-                        <FiUser className="h-3 w-3" />
-                        User
-                      </span>
-                    )}
-                  </td>
-                  <td className="py-4 text-sm font-mono text-slate-600">{user.id}</td>
-                  <td className="py-4 text-right">
-                    <div className="flex items-center justify-end gap-2">
-                      <button
-                        onClick={() => handleToggleRole(user.id)}
-                        className="rounded-lg bg-amber-50 p-2 text-amber-600 transition-colors hover:bg-amber-100"
-                        title={user.role === "admin" ? "Demote to User" : "Promote to Admin"}
-                      >
-                        <FiShield className="h-4 w-4" />
-                      </button>
-                      <button
-                        onClick={() => handleDelete(user.id)}
-                        className="rounded-lg bg-red-50 p-2 text-red-600 transition-colors hover:bg-red-100"
-                        title="Delete User"
-                      >
-                        <FiTrash2 className="h-4 w-4" />
-                      </button>
-                    </div>
-                  </td>
-                </motion.tr>
-              ))}
-            </tbody>
-          </table>
+                    <p className="text-xs text-slate-400 font-mono mt-1">
+                      ID: {user.id}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Actions */}
+                <div className="flex items-center gap-2 ml-4">
+                  <button
+                    onClick={() => handleEdit(user)}
+                    className="rounded-md bg-blue-600 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700"
+                    title="Edit User"
+                  >
+                    <FiEdit2 className="h-4 w-4" />
+                  </button>
+                  <button
+                    onClick={() => handleToggleRole(user.id)}
+                    className="rounded-md bg-amber-600 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-amber-700"
+                    title={user.role === "admin" ? "Demote to User" : "Promote to Admin"}
+                  >
+                    <FiShield className="h-4 w-4" />
+                  </button>
+                  <button
+                    onClick={() => handleDelete(user.id)}
+                    className="rounded-md bg-red-600 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-red-700"
+                    title="Delete User"
+                  >
+                    <FiTrash2 className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="py-12 text-center text-slate-500">
+              <FiUsers className="mx-auto mb-3 h-12 w-12 opacity-30" />
+              <p className="font-medium">No users found</p>
+              <p className="text-sm">Try adjusting your search query</p>
+            </div>
+          )}
         </div>
       </div>
+
+      {/* Edit User Modal */}
+      {isEditModalOpen && editingUser && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-6"
+          onClick={resetEditForm}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="w-full max-w-2xl rounded-lg bg-white shadow-xl"
+          >
+            {/* Modal Header */}
+            <div className="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-6 py-4">
+              <div>
+                <h2 className="text-xl font-bold text-slate-900">Edit User</h2>
+                <p className="text-sm text-slate-600">Update user information and role</p>
+              </div>
+              <button
+                onClick={resetEditForm}
+                className="rounded-md p-2 text-slate-400 transition-colors hover:bg-slate-200 hover:text-slate-600"
+              >
+                <FiX className="h-5 w-5" />
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="space-y-4 p-6 max-h-[70vh] overflow-y-auto">
+              {/* Name Field */}
+              <div>
+                <label className="mb-2 flex items-center gap-2 text-sm font-semibold text-slate-700">
+                  <FiUser className="h-4 w-4" />
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  value={editFormData.name}
+                  onChange={(e) => setEditFormData({ ...editFormData, name: e.target.value })}
+                  className="w-full rounded-md border border-slate-300 px-3 py-2 text-slate-900 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                  placeholder="Enter full name"
+                />
+              </div>
+
+              {/* Email Field */}
+              <div>
+                <label className="mb-2 flex items-center gap-2 text-sm font-semibold text-slate-700">
+                  <FiMail className="h-4 w-4" />
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  value={editFormData.email}
+                  onChange={(e) => setEditFormData({ ...editFormData, email: e.target.value })}
+                  className="w-full rounded-md border border-slate-300 px-3 py-2 text-slate-900 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                  placeholder="Enter email address"
+                />
+              </div>
+
+              {/* Password Field */}
+              <div>
+                <label className="mb-2 flex items-center gap-2 text-sm font-semibold text-slate-700">
+                  <FiLock className="h-4 w-4" />
+                  New Password
+                </label>
+                <input
+                  type="password"
+                  value={editFormData.password}
+                  onChange={(e) => setEditFormData({ ...editFormData, password: e.target.value })}
+                  className="w-full rounded-md border border-slate-300 px-3 py-2 text-slate-900 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                  placeholder="Enter new password (optional)"
+                />
+                <p className="mt-1 text-xs text-slate-500">
+                  Leave empty to keep current password
+                </p>
+              </div>
+
+              {/* Role Selection */}
+              <div>
+                <label className="mb-2 flex items-center gap-2 text-sm font-semibold text-slate-700">
+                  <FiShield className="h-4 w-4" />
+                  User Role
+                </label>
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setEditFormData({ ...editFormData, role: "user" })}
+                    className={`flex items-center justify-center gap-2 rounded-md border-2 p-3 font-medium transition-all ${
+                      editFormData.role === "user"
+                        ? "border-blue-500 bg-blue-50 text-blue-700"
+                        : "border-slate-200 bg-white text-slate-600 hover:border-slate-300"
+                    }`}
+                  >
+                    <FiUser className="h-5 w-5" />
+                    Regular User
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setEditFormData({ ...editFormData, role: "admin" })}
+                    className={`flex items-center justify-center gap-2 rounded-md border-2 p-3 font-medium transition-all ${
+                      editFormData.role === "admin"
+                        ? "border-orange-500 bg-orange-50 text-orange-700"
+                        : "border-slate-200 bg-white text-slate-600 hover:border-slate-300"
+                    }`}
+                  >
+                    <FiShield className="h-5 w-5" />
+                    Administrator
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Modal Footer */}
+            <div className="flex gap-3 border-t border-slate-200 bg-slate-50 px-6 py-4">
+              <button
+                onClick={resetEditForm}
+                className="flex-1 rounded-md border border-slate-300 bg-white px-4 py-2 font-medium text-slate-700 transition-colors hover:bg-slate-100"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSaveEdit}
+                className="flex-1 flex items-center justify-center gap-2 rounded-md bg-blue-600 px-4 py-2 font-medium text-white transition-colors hover:bg-blue-700"
+              >
+                <FiSave className="h-4 w-4" />
+                Save Changes
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

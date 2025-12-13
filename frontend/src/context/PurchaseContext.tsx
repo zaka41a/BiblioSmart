@@ -11,6 +11,7 @@ export interface Purchase {
 interface PurchaseContextType {
   purchases: Purchase[];
   purchaseBook: (userId: string, bookId: string, price: number) => void;
+  removePurchase: (userId: string, bookId: string) => void;
   getUserPurchases: (userId: string) => Purchase[];
   hasUserPurchased: (userId: string, bookId: string) => boolean;
   canUserAccessBook: (userId: string, bookId: string, bookPrice: number) => boolean;
@@ -40,6 +41,12 @@ export const PurchaseProvider = ({ children }: { children: ReactNode }) => {
     setPurchases([...purchases, newPurchase]);
   };
 
+  const removePurchase = (userId: string, bookId: string) => {
+    setPurchases(purchases.filter(purchase =>
+      !(purchase.userId === userId && purchase.bookId === bookId)
+    ));
+  };
+
   const getUserPurchases = (userId: string) => {
     return purchases.filter(purchase => purchase.userId === userId);
   };
@@ -63,6 +70,7 @@ export const PurchaseProvider = ({ children }: { children: ReactNode }) => {
       value={{
         purchases,
         purchaseBook,
+        removePurchase,
         getUserPurchases,
         hasUserPurchased,
         canUserAccessBook

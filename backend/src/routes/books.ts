@@ -1,11 +1,18 @@
 import { Router } from "express";
-import { requireAdmin } from "../middleware/auth";
+import { requireAuth, requireAdmin } from "../middleware/auth";
+import { tenantIsolation } from "../middleware/tenantIsolation";
+import { createLimiter } from "../middleware/rateLimiter";
+import { validateCreateBook, validateUpdateBook } from "../validators/bookValidators";
 import { createBook, deleteBook, getBook, listBooks, updateBook } from "../controllers/booksController";
 
 export const booksRouter = Router();
 
+// Public route - anyone can browse available books
 booksRouter.get("/", listBooks);
-booksRouter.get("/:id", getBook);
-booksRouter.post("/", requireAdmin, createBook);
-booksRouter.patch("/:id", requireAdmin, updateBook);
-booksRouter.delete("/:id", requireAdmin, deleteBook);
+
+// Protected routes - require authentication and tenant isolation
+booksRouter.get("/:id", requireAuth, tenantIsolation, getBook);
+booksRouter.post("/", requireAuth, tenantIsolation, requireAdmin, createLimiter, validateCreateBook, createBook);
+booksRouter.patch("/:id", requireAuth, tenantIsolation, requireAdmin, validateUpdateBook, updateBook);
+booksRouter.put("/:id", requireAuth, tenantIsolation, requireAdmin, validateUpdateBook, updateBook);
+booksRouter.delete("/:id", requireAuth, tenantIsolation, requireAdmin, deleteBook);

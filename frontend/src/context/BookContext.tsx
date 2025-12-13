@@ -1,101 +1,139 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { API_ENDPOINTS, apiRequest } from "../config/api";
 
 export interface Book {
   id: string;
   title: string;
   author: string;
   category: string;
-  year: number;
-  isbn: string;
+  year?: number;
+  isbn?: string;
   available: boolean;
-  price: number; // 0 = free, >0 = paid (in euros/dollars)
+  price?: number; // 0 or undefined = free, >0 = paid (in euros/dollars)
   coverUrl?: string;
   description?: string;
+  pdfUrl?: string; // URL or path to the PDF file
+  totalPages?: number; // Total number of pages in the book
+  tags?: string[];
+}
+
+interface BooksResponse {
+  items: Book[];
+  total: number;
+  page: number;
+  pageSize: number;
 }
 
 interface BookContextType {
   books: Book[];
-  addBook: (book: Omit<Book, "id">) => void;
-  updateBook: (id: string, book: Partial<Book>) => void;
-  deleteBook: (id: string) => void;
+  isLoading: boolean;
+  error: string | null;
+  addBook: (book: Omit<Book, "id">) => Promise<void>;
+  updateBook: (id: string, book: Partial<Book>) => Promise<void>;
+  deleteBook: (id: string) => Promise<void>;
   getBookById: (id: string) => Book | undefined;
+  refreshBooks: () => Promise<void>;
 }
 
 const BookContext = createContext<BookContextType | undefined>(undefined);
 
 export const BookProvider = ({ children }: { children: ReactNode }) => {
   const [books, setBooks] = useState<Book[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // Load books from localStorage on mount
-  useEffect(() => {
-    const storedBooks = localStorage.getItem("bibliosmart_books");
-    if (storedBooks) {
-      setBooks(JSON.parse(storedBooks));
-    } else {
-      // Initialize with some sample books
-      const initialBooks: Book[] = [
+  // Load books from API on mount
+  const loadBooks = async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+
+      const response = await apiRequest<BooksResponse>(API_ENDPOINTS.books);
+      setBooks(response.items);
+
+      // Cache in localStorage as backup
+      localStorage.setItem("bibliosmart_books_cache", JSON.stringify(response.items));
+    } catch (err: any) {
+      console.error("Failed to load books from API:", err);
+      setError(err.message || "Failed to load books");
+
+      // Fallback to cached data if available
+      const cachedBooks = localStorage.getItem("bibliosmart_books_cache");
+      if (cachedBooks) {
+        setBooks(JSON.parse(cachedBooks));
+        console.log("Loaded books from cache");
+      } else {
+        // Fallback to demo data if no cache
+        const initialBooks: Book[] = [
         {
-          id: "book-1",
-          title: "The Art of Computer Programming",
-          author: "Donald Knuth",
-          category: "Technical",
-          year: 1968,
-          isbn: "978-0-201-03801-3",
-          available: true,
-          price: 29.99, // Paid book
-          description: "A comprehensive monograph written by computer scientist Donald Knuth."
-        },
-        {
-          id: "book-2",
+          id: "demo-1",
           title: "Clean Code",
           author: "Robert C. Martin",
-          category: "Technical",
+          category: "Technology",
           year: 2008,
-          isbn: "978-0-132-35088-4",
+          isbn: "9780132350884",
           available: true,
-          price: 0, // Free book
-          description: "A Handbook of Agile Software Craftsmanship."
-        },
-        {
-          id: "book-3",
-          title: "To Kill a Mockingbird",
-          author: "Harper Lee",
-          category: "Fiction",
-          year: 1960,
-          isbn: "978-0-061-12008-4",
-          available: true,
-          price: 15.50, // Paid book
-          description: "A novel about racial injustice in the American South."
+          price: 0,
+          description: "Demo book - Backend connection failed",
+          pdfUrl: "",
+          totalPages: 464
         }
       ];
-      setBooks(initialBooks);
-      localStorage.setItem("bibliosmart_books", JSON.stringify(initialBooks));
+        setBooks(initialBooks);
+      }
+    } finally {
+      setIsLoading(false);
     }
+  };
+
+  useEffect(() => {
+    loadBooks();
   }, []);
 
-  // Save books to localStorage whenever they change
-  useEffect(() => {
-    if (books.length > 0) {
-      localStorage.setItem("bibliosmart_books", JSON.stringify(books));
+  const addBook = async (book: Omit<Book, "id">) => {
+    try {
+      const newBook = await apiRequest<Book>(API_ENDPOINTS.books, {
+        method: "POST",
+        body: JSON.stringify(book),
+      });
+      setBooks((prev) => [...prev, newBook]);
+      await loadBooks(); // Refresh to get latest data
+    } catch (err: any) {
+      console.error("Failed to add book:", err);
+      const errorMessage = err.message || "Could not connect to server. Please check your connection.";
+      throw new Error(errorMessage);
     }
-  }, [books]);
-
-  const addBook = (book: Omit<Book, "id">) => {
-    const newBook: Book = {
-      ...book,
-      id: `book-${Date.now()}`
-    };
-    setBooks((prev) => [...prev, newBook]);
   };
 
-  const updateBook = (id: string, updatedBook: Partial<Book>) => {
-    setBooks((prev) =>
-      prev.map((book) => (book.id === id ? { ...book, ...updatedBook } : book))
-    );
+  const updateBook = async (id: string, updatedBook: Partial<Book>) => {
+    try {
+      const updated = await apiRequest<Book>(API_ENDPOINTS.bookById(id), {
+        method: "PUT",
+        body: JSON.stringify(updatedBook),
+      });
+      setBooks((prev) =>
+        prev.map((book) => (book.id === id ? updated : book))
+      );
+      await loadBooks(); // Refresh to get latest data
+    } catch (err: any) {
+      console.error("Failed to update book:", err);
+      const errorMessage = err.message || "Could not connect to server. Please check your connection.";
+      throw new Error(errorMessage);
+    }
   };
 
-  const deleteBook = (id: string) => {
-    setBooks((prev) => prev.filter((book) => book.id !== id));
+  const deleteBook = async (id: string) => {
+    try {
+      await apiRequest(API_ENDPOINTS.bookById(id), {
+        method: "DELETE",
+      });
+      setBooks((prev) => prev.filter((book) => book.id !== id));
+      await loadBooks(); // Refresh to get latest data
+    } catch (err: any) {
+      console.error("Failed to delete book:", err);
+      const errorMessage = err.message || "Could not connect to server. Please check your connection.";
+      throw new Error(errorMessage);
+    }
   };
 
   const getBookById = (id: string) => {
@@ -106,10 +144,13 @@ export const BookProvider = ({ children }: { children: ReactNode }) => {
     <BookContext.Provider
       value={{
         books,
+        isLoading,
+        error,
         addBook,
         updateBook,
         deleteBook,
-        getBookById
+        getBookById,
+        refreshBooks: loadBooks
       }}
     >
       {children}

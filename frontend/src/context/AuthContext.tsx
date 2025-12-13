@@ -14,8 +14,9 @@ export interface User {
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
+  isLoading: boolean;
   login: (email: string, password: string) => boolean;
-  register: (name: string, email: string, password: string) => boolean;
+  register: (name: string, email: string, password: string, role?: UserRole) => boolean;
   logout: () => void;
 }
 
@@ -23,6 +24,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   // Load user from localStorage on mount and initialize admin
@@ -32,8 +34,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const storedUser = localStorage.getItem("bibliosmart_user");
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (error) {
+        console.error("Failed to parse stored user:", error);
+        localStorage.removeItem("bibliosmart_user");
+      }
     }
+    setIsLoading(false);
   }, []);
 
   const login = (email: string, password: string): boolean => {
@@ -102,6 +110,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       value={{
         user,
         isAuthenticated: !!user,
+        isLoading,
         login,
         register,
         logout

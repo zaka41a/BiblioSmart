@@ -1,3 +1,4 @@
+// Prisma Schema for BiblioSmart
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,76 +8,81 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// User Model
 model User {
-  id           String   @id @default(cuid())
-  email        String   @unique
-  passwordHash String
-  firstName    String
-  lastName     String
-  role         Role     @default(READER)
-  loans        Loan[]
-  favorites    Favorite[]
-  notifications Notification[]
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id            String    @id @default(uuid())
+  email         String    @unique
+  password      String
+  name          String
+  role          Role      @default(USER)
+  
+  // Timestamps
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  // Relations
+  purchases     Purchase[]
+  refreshTokens RefreshToken[]
+  
+  @@map("users")
 }
 
+// Book Model
 model Book {
-  id          String   @id @default(cuid())
+  id          String    @id @default(uuid())
   title       String
   author      String
+  isbn        String?   @unique
   category    String
-  isbn        String?  @unique
+  year        Int
+  price       Float     @default(0)
+  available   Boolean   @default(true)
   coverUrl    String?
-  synopsis    String?
-  copies      Int      @default(1)
-  available   Int      @default(1)
-  tags        String[] @default([])
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  loans       Loan[]
-  favorites   Favorite[]
+  pdfUrl      String?
+  description String?
+  
+  // Timestamps
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  // Relations
+  purchases   Purchase[]
+  
+  @@map("books")
 }
 
-model Loan {
-  id          String   @id @default(cuid())
-  dueDate     DateTime
-  returnedAt  DateTime?
-  status      LoanStatus @default(ONGOING)
-  user        User    @relation(fields: [userId], references: [id])
+// Purchase Model
+model Purchase {
+  id            String    @id @default(uuid())
+  userId        String
+  bookId        String
+  price         Float
+  purchaseDate  DateTime  @default(now())
+  
+  // Relations
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  book          Book      @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, bookId])
+  @@map("purchases")
+}
+
+// Refresh Token Model (for JWT security)
+model RefreshToken {
+  id          String    @id @default(uuid())
+  token       String    @unique
   userId      String
-  book        Book    @relation(fields: [bookId], references: [id])
-  bookId      String
-  createdAt   DateTime @default(now())
+  expiresAt   DateTime
+  createdAt   DateTime  @default(now())
+  
+  // Relations
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("refresh_tokens")
 }
 
-model Favorite {
-  id        String @id @default(cuid())
-  user      User   @relation(fields: [userId], references: [id])
-  userId    String
-  book      Book   @relation(fields: [bookId], references: [id])
-  bookId    String
-  createdAt DateTime @default(now())
-}
-
-model Notification {
-  id        String   @id @default(cuid())
-  title     String
-  body      String
-  read      Boolean  @default(false)
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String
-  createdAt DateTime @default(now())
-}
-
+// Enums
 enum Role {
+  USER
   ADMIN
-  LIBRARIAN
-  READER
-}
-
-enum LoanStatus {
-  ONGOING
-  RETURNED
-  LATE
 }

@@ -5,122 +5,153 @@ const prisma = new PrismaClient();
 
 const books = [
   {
-    title: "L'odyssée des bibliothèques",
-    author: "Camille Durand",
-    category: "Essai",
-    isbn: "9781234567001",
-    synopsis: "Un tour du monde des innovations qui transforment nos espaces de lecture.",
-    tags: ["Innovation", "Culture"]
+    title: "Clean Code",
+    author: "Robert C. Martin",
+    category: "Technology",
+    isbn: "9780132350884",
+    coverUrl: "https://m.media-amazon.com/images/I/51E2055ZGUL._SY445_SX342_.jpg",
+    description: "A comprehensive guide to writing clean, maintainable code that stands the test of time.",
+    pdfUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+    price: 0,
+    year: 2008,
+    available: true
   },
   {
-    title: "Neon Archives",
-    author: "Sami Lefèvre",
-    category: "Science-Fiction",
-    isbn: "9781234567002",
-    synopsis: "Une enquête dans un futur où les souvenirs se prêtent comme des livres.",
-    tags: ["Anticipation", "Thriller"]
+    title: "The Pragmatic Programmer",
+    author: "Andrew Hunt & David Thomas",
+    category: "Technology",
+    isbn: "9780135957059",
+    coverUrl: "https://m.media-amazon.com/images/I/71VStE2hElL._SY466_.jpg",
+    description: "Your journey to mastery through practical and pragmatic programming techniques.",
+    pdfUrl: "https://github.com/media-lib/prog_lib/raw/master/general/The%20Pragmatic%20Programmer.pdf",
+    price: 29.99,
+    year: 2019,
+    available: true
   },
   {
-    title: "Coding the Stacks",
-    author: "Amina Cohen",
-    category: "Technologie",
-    isbn: "9781234567003",
-    synopsis: "Guide moderne pour digitaliser un catalogue de bibliothèque.",
-    tags: ["Tech", "Pratique"]
+    title: "JavaScript: The Good Parts",
+    author: "Douglas Crockford",
+    category: "Programming",
+    isbn: "9780596517748",
+    coverUrl: "https://m.media-amazon.com/images/I/81kqrwS1nNL._SY466_.jpg",
+    description: "A deep dive into the beautiful and elegant parts of JavaScript.",
+    pdfUrl: "https://www.africau.edu/images/default/sample.pdf",
+    price: 0,
+    year: 2008,
+    available: true
   },
   {
-    title: "Les Veilleurs de papier",
-    author: "Tristan Morel",
-    category: "Roman",
-    isbn: "9781234567004",
-    synopsis: "Une équipe de bibliothécaires défend un fonds ancien contre l'oubli.",
-    tags: ["Aventure", "Patrimoine"]
+    title: "Introduction to Algorithms",
+    author: "Thomas H. Cormen",
+    category: "Computer Science",
+    isbn: "9780262033848",
+    coverUrl: "https://m.media-amazon.com/images/I/61Pgdn8Ys-L._SY466_.jpg",
+    description: "The comprehensive guide to algorithms, covering a broad range of algorithms in depth.",
+    pdfUrl: "",
+    price: 39.99,
+    year: 2009,
+    available: true
   },
   {
-    title: "Atlas poétique des métropoles",
-    author: "Léa Aït Ben",
-    category: "Poésie",
-    isbn: "9781234567005",
-    synopsis: "Recueil de poèmes cartographiant les villes contemporaines.",
-    tags: ["Poésie", "Voyage"]
+    title: "Design Patterns",
+    author: "Gang of Four",
+    category: "Software Engineering",
+    isbn: "9780201633612",
+    coverUrl: "https://m.media-amazon.com/images/I/81gtKoapHFL._SY466_.jpg",
+    description: "Elements of reusable object-oriented software design patterns.",
+    pdfUrl: "",
+    price: 24.99,
+    year: 1994,
+    available: true
   },
   {
-    title: "Horizon jeunesse",
-    author: "Malik Ortega",
-    category: "Jeunesse",
-    isbn: "9781234567006",
-    synopsis: "Roman initiatique pour les lecteurs de 10-12 ans.",
-    tags: ["Jeunesse", "Aventure"]
+    title: "You Don't Know JS",
+    author: "Kyle Simpson",
+    category: "Programming",
+    isbn: "9781491904244",
+    coverUrl: "https://m.media-amazon.com/images/I/71VCVrcoLzL._SY466_.jpg",
+    description: "Deep dive into the core mechanisms of JavaScript language.",
+    pdfUrl: "https://www.africau.edu/images/default/sample.pdf",
+    price: 0,
+    year: 2015,
+    available: true
   },
   {
-    title: "Les archives du futur",
-    author: "Inès Aubry",
-    category: "Science-Fiction",
-    isbn: "9781234567007",
-    synopsis: "Des bibliothèques orbitales où l'on emprunte des réalités parallèles.",
-    tags: ["Science-Fiction", "Exploration"]
+    title: "Eloquent JavaScript",
+    author: "Marijn Haverbeke",
+    category: "Programming",
+    isbn: "9781593279509",
+    coverUrl: "https://m.media-amazon.com/images/I/51InjRPaF7L._SY445_SX342_.jpg",
+    description: "A modern introduction to programming with JavaScript.",
+    pdfUrl: "https://eloquentjavascript.net/Eloquent_JavaScript.pdf",
+    price: 0,
+    year: 2018,
+    available: true
   },
   {
-    title: "Manuel de médiation culturelle",
-    author: "Noémie Vidal",
-    category: "Professionnel",
-    isbn: "9781234567008",
-    synopsis: "Actions concrètes pour valoriser vos collections auprès de nouveaux publics.",
-    tags: ["Médiation", "Stratégie"]
-  },
-  {
-    title: "Reflets de lecture",
-    author: "Yanis Lemaire",
-    category: "Roman",
-    isbn: "9781234567009",
-    synopsis: "Une communauté de lecteurs se recompose après la fermeture de leur médiathèque.",
-    tags: ["Roman", "Contemporain"]
-  },
-  {
-    title: "Le guide des makers",
-    author: "Sofia Bernard",
-    category: "DIY",
-    isbn: "9781234567010",
-    synopsis: "Ateliers et projets à lancer dans un espace fablab de bibliothèque.",
-    tags: ["Makers", "Créativité"]
-  },
-  {
-    title: "Politique des communs", 
-    author: "Clarisse Pinto",
-    category: "Essai",
-    isbn: "9781234567011",
-    synopsis: "Comment la bibliothèque devient un acteur central de la ville contributive.",
-    tags: ["Société", "Commun"]
-  },
-  {
-    title: "Origami quantique",
-    author: "Hugo Park",
-    category: "BD",
-    isbn: "9781234567012",
-    synopsis: "Bande dessinée rétrofuturiste autour d'une bibliothèque interdimensionnelle.",
-    tags: ["BD", "Science-Fiction"]
+    title: "Learning React",
+    author: "Alex Banks & Eve Porcello",
+    category: "Web Development",
+    isbn: "9781492051718",
+    coverUrl: "https://m.media-amazon.com/images/I/51Ga5GuElyL._SY445_SX342_.jpg",
+    description: "Modern patterns for developing React applications.",
+    pdfUrl: "",
+    price: 39.99,
+    year: 2020,
+    available: true
   }
 ];
 
 async function main() {
-  const passwordHash = await bcrypt.hash("ChangeMe42!", 10);
+  console.log("🌱 Starting database seeding...");
 
+  // Create admin user
+  const adminPassword = await bcrypt.hash("admin123", 10);
   const admin = await prisma.user.upsert({
-    where: { email: "admin@bibliosmart.io" },
+    where: { email: "admin@bibliosmart.com" },
     update: {},
     create: {
-      email: "admin@bibliosmart.io",
-      passwordHash,
-      firstName: "Admin",
-      lastName: "Biblio",
+      email: "admin@bibliosmart.com",
+      password: adminPassword,
+      name: "Admin BiblioSmart",
       role: Role.ADMIN
     }
   });
+  console.log(`✅ Admin user: ${admin.email} (password: admin123)`);
 
+  // Create regular user
+  const userPassword = await bcrypt.hash("user123", 10);
+  const user = await prisma.user.upsert({
+    where: { email: "user@bibliosmart.com" },
+    update: {},
+    create: {
+      email: "user@bibliosmart.com",
+      password: userPassword,
+      name: "John Doe",
+      role: Role.USER
+    }
+  });
+  console.log(`✅ Regular user: ${user.email} (password: user123)`);
+
+  // Create books
   await prisma.book.deleteMany();
-  await prisma.book.createMany({ data: books.map((book) => ({ ...book, copies: 5, available: 4 })) });
+  await prisma.book.createMany({ data: books });
+  console.log(`✅ Created ${books.length} books`);
 
-  console.log(`Seed completed. Admin id: ${admin.id}`);
+  // Create sample purchase
+  const cleanCodeBook = await prisma.book.findFirst({ where: { title: "Clean Code" } });
+  if (cleanCodeBook) {
+    await prisma.purchase.create({
+      data: {
+        userId: user.id,
+        bookId: cleanCodeBook.id,
+        price: cleanCodeBook.price
+      }
+    });
+    console.log(`✅ Created sample purchase for user`);
+  }
+
+  console.log("✨ Database seeding completed successfully!");
 }
 
 main()
