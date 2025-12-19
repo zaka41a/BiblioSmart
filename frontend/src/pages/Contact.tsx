@@ -57,7 +57,7 @@ export const Contact = () => {
               <div className="flex-1">
                 <h3 className="font-bold text-slate-900 mb-2">Email Support</h3>
                 <p className="text-sm text-slate-600 mb-1">General Inquiries:</p>
-                <p className="text-sm text-green-600 font-semibold mb-2">contact@bibliosmart.com</p>
+                <p className="text-sm text-green-600 font-semibold mb-2">zaksab98@gmail.com</p>
                 <p className="text-sm text-slate-600 mb-1">Support Team:</p>
                 <p className="text-sm text-green-600 font-semibold">support@bibliosmart.com</p>
               </div>
@@ -72,12 +72,12 @@ export const Contact = () => {
               </div>
               <div className="flex-1">
                 <h3 className="font-bold text-slate-900 mb-2">Phone Support</h3>
-                <p className="text-sm text-blue-600 font-semibold mb-2">+1 (555) 123-4567</p>
+                <p className="text-sm text-blue-600 font-semibold mb-2">+49 176 20827199</p>
                 <div className="flex items-center gap-2 text-sm text-slate-600">
                   <FiClock className="h-4 w-4" />
                   <span>Monday - Friday</span>
                 </div>
-                <p className="text-sm text-slate-600 ml-6">9:00 AM - 6:00 PM EST</p>
+                <p className="text-sm text-slate-600 ml-6">9:00 AM - 6:00 PM CET</p>
               </div>
             </div>
           </div>
@@ -90,10 +90,9 @@ export const Contact = () => {
               </div>
               <div className="flex-1">
                 <h3 className="font-bold text-slate-900 mb-2">Headquarters</h3>
-                <p className="text-sm text-slate-700 font-medium">BiblioSmart Inc.</p>
-                <p className="text-sm text-slate-600">123 Library Street</p>
-                <p className="text-sm text-slate-600">New York, NY 10001</p>
-                <p className="text-sm text-slate-600">United States</p>
+                <p className="text-sm text-slate-700 font-medium">BiblioSmart</p>
+                <p className="text-sm text-slate-600">Aachen</p>
+                <p className="text-sm text-slate-600">Germany</p>
               </div>
             </div>
           </div>

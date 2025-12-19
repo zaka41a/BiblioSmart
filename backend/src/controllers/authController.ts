@@ -14,13 +14,20 @@ const authSchema = z.object({
 export const register = async (req: Request, res: Response) => {
   const parsed = authSchema.safeParse(req.body);
   if (!parsed.success) {
-    return res.status(400).json({ message: "Données invalides", errors: parsed.error.flatten() });
+    return res.status(400).json({
+      success: false,
+      error: "Données invalides",
+      errors: parsed.error.flatten()
+    });
   }
 
   const { email, password, name = "" } = parsed.data;
   const existing = await prisma.user.findUnique({ where: { email } });
   if (existing) {
-    return res.status(409).json({ message: "Un compte existe déjà pour cet email." });
+    return res.status(409).json({
+      success: false,
+      error: "Un compte existe déjà pour cet email."
+    });
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -28,24 +35,43 @@ export const register = async (req: Request, res: Response) => {
     data: { email, password: hashedPassword, name }
   });
 
-  return res.status(201).json({ id: user.id, email: user.email });
+  return res.status(201).json({
+    success: true,
+    data: {
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role
+      }
+    }
+  });
 };
 
 export const login = async (req: Request, res: Response) => {
   const parsed = authSchema.pick({ email: true, password: true }).safeParse(req.body);
   if (!parsed.success) {
-    return res.status(400).json({ message: "Identifiants invalides" });
+    return res.status(400).json({
+      success: false,
+      error: "Identifiants invalides"
+    });
   }
 
   const { email, password } = parsed.data;
   const user = await prisma.user.findUnique({ where: { email } });
   if (!user) {
-    return res.status(401).json({ message: "Compte introuvable" });
+    return res.status(401).json({
+      success: false,
+      error: "Compte introuvable"
+    });
   }
 
   const valid = await bcrypt.compare(password, user.password);
   if (!valid) {
-    return res.status(401).json({ message: "Mot de passe incorrect" });
+    return res.status(401).json({
+      success: false,
+      error: "Mot de passe incorrect"
+    });
   }
 
   const accessToken = signAccessToken({ sub: user.id, role: user.role }, "45m");
@@ -66,10 +92,16 @@ export const login = async (req: Request, res: Response) => {
     });
 
   return res.json({
-    id: user.id,
-    email: user.email,
-    role: user.role,
-    name: user.name
+    success: true,
+    data: {
+      user: {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+        name: user.name
+      },
+      token: accessToken
+    }
   });
 };
 
@@ -83,84 +115,177 @@ export const refreshToken = async (req: Request, res: Response) => {
   const token = req.cookies?.refreshToken;
 
   if (!token) {
-    return res.status(401).json({ message: "Refresh token manquant" });
+    return res.status(401).json({
+      success: false,
+      error: "Refresh token manquant"
+    });
   }
 
   try {
-    const { authService } = await import("../services/authService");
-    const { accessToken } = await authService.refreshToken(token);
+    const { verifyRefreshToken } = await import("../utils/jwt");
+    const payload = verifyRefreshToken(token);
 
-    res.cookie("accessToken", accessToken, {
+    // Generate new access token
+    const newAccessToken = signAccessToken({ sub: payload.sub, role: payload.role }, "45m");
+
+    res.cookie("accessToken", newAccessToken, {
       httpOnly: true,
       sameSite: "lax",
       secure: process.env.NODE_ENV === "production",
       maxAge: 1000 * 60 * 45
     });
 
-    return res.json({ accessToken });
+    return res.json({
+      success: true,
+      data: { accessToken: newAccessToken }
+    });
   } catch (error) {
-    return res.status(401).json({ message: "Refresh token invalide ou expiré" });
+    return res.status(401).json({
+      success: false,
+      error: "Refresh token invalide ou expiré"
+    });
   }
 };
 
 export const getProfile = async (req: Request, res: Response) => {
   try {
-    const { authService } = await import("../services/authService");
     const userId = (req as any).user?.id;
 
     if (!userId) {
-      return res.status(401).json({ message: "Non authentifié" });
+      return res.status(401).json({
+        success: false,
+        error: "Non authentifié"
+      });
     }
 
-    const user = await authService.getUserById(userId);
-    return res.json(user);
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        role: true,
+        createdAt: true
+      }
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        error: "Utilisateur introuvable"
+      });
+    }
+
+    return res.json({
+      success: true,
+      data: { user }
+    });
   } catch (error) {
-    return res.status(404).json({ message: "Utilisateur introuvable" });
+    return res.status(500).json({
+      success: false,
+      error: "Erreur serveur"
+    });
   }
 };
 
 export const updateProfile = async (req: Request, res: Response) => {
   try {
-    const { authService } = await import("../services/authService");
     const userId = (req as any).user?.id;
 
     if (!userId) {
-      return res.status(401).json({ message: "Non authentifié" });
+      return res.status(401).json({
+        success: false,
+        error: "Non authentifié"
+      });
     }
 
     const { name, email } = req.body;
-    const user = await authService.updateUser(userId, { name, email });
 
-    return res.json(user);
+    const user = await prisma.user.update({
+      where: { id: userId },
+      data: { name, email },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        role: true
+      }
+    });
+
+    return res.json({
+      success: true,
+      data: { user }
+    });
   } catch (error: any) {
-    return res.status(400).json({ message: error.message || "Erreur lors de la mise à jour" });
+    return res.status(400).json({
+      success: false,
+      error: error.message || "Erreur lors de la mise à jour"
+    });
   }
 };
 
 export const changePassword = async (req: Request, res: Response) => {
   try {
-    const { authService } = await import("../services/authService");
     const userId = (req as any).user?.id;
 
     if (!userId) {
-      return res.status(401).json({ message: "Non authentifié" });
+      return res.status(401).json({
+        success: false,
+        error: "Non authentifié"
+      });
     }
 
     const { oldPassword, newPassword } = req.body;
 
     if (!oldPassword || !newPassword) {
-      return res.status(400).json({ message: "Ancien et nouveau mot de passe requis" });
+      return res.status(400).json({
+        success: false,
+        error: "Ancien et nouveau mot de passe requis"
+      });
     }
 
     if (newPassword.length < 8) {
-      return res.status(400).json({ message: "Le nouveau mot de passe doit contenir au moins 8 caractères" });
+      return res.status(400).json({
+        success: false,
+        error: "Le nouveau mot de passe doit contenir au moins 8 caractères"
+      });
     }
 
-    await authService.changePassword(userId, oldPassword, newPassword);
+    // Get user and verify old password
+    const user = await prisma.user.findUnique({ where: { id: userId } });
 
-    return res.json({ message: "Mot de passe changé avec succès" });
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        error: "Utilisateur introuvable"
+      });
+    }
+
+    const isValidPassword = await bcrypt.compare(oldPassword, user.password);
+
+    if (!isValidPassword) {
+      return res.status(400).json({
+        success: false,
+        error: "Ancien mot de passe incorrect"
+      });
+    }
+
+    // Update password
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+    await prisma.user.update({
+      where: { id: userId },
+      data: { password: hashedNewPassword }
+    });
+
+    return res.json({
+      success: true,
+      message: "Mot de passe changé avec succès"
+    });
   } catch (error: any) {
-    return res.status(400).json({ message: error.message || "Erreur lors du changement de mot de passe" });
+    return res.status(500).json({
+      success: false,
+      error: error.message || "Erreur lors du changement de mot de passe"
+    });
   }
 };
 

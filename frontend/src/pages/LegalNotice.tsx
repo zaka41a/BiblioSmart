@@ -30,7 +30,7 @@ export const LegalNotice = () => {
                 <div className="space-y-3">
                   <div>
                     <p className="text-xs font-semibold text-green-700 uppercase tracking-wider mb-1">Company Name</p>
-                    <p className="text-slate-900 font-semibold">BiblioSmart Inc.</p>
+                    <p className="text-slate-900 font-semibold">BiblioSmart</p>
                   </div>
                   <div>
                     <p className="text-xs font-semibold text-green-700 uppercase tracking-wider mb-1">Legal Form</p>
@@ -44,13 +44,12 @@ export const LegalNotice = () => {
                 <div className="space-y-3">
                   <div>
                     <p className="text-xs font-semibold text-green-700 uppercase tracking-wider mb-1">Headquarters</p>
-                    <p className="text-slate-900 font-semibold">123 Library Street</p>
-                    <p className="text-slate-900 font-semibold">New York, NY 10001</p>
-                    <p className="text-slate-900 font-semibold">United States</p>
+                    <p className="text-slate-900 font-semibold">Aachen</p>
+                    <p className="text-slate-900 font-semibold">Germany</p>
                   </div>
                   <div>
                     <p className="text-xs font-semibold text-green-700 uppercase tracking-wider mb-1">Contact Email</p>
-                    <p className="text-green-600 font-semibold">legal@bibliosmart.com</p>
+                    <p className="text-green-600 font-semibold">zaksab98@gmail.com</p>
                   </div>
                 </div>
               </div>
@@ -104,7 +103,7 @@ export const LegalNotice = () => {
                   </li>
                 </ul>
                 <p className="text-slate-700 mt-4">
-                  is the exclusive property of <span className="font-semibold text-slate-900">BiblioSmart Inc.</span> and is protected by international copyright, trademark, and intellectual property laws.
+                  is the exclusive property of <span className="font-semibold text-slate-900">BiblioSmart</span> and is protected by international copyright, trademark, and intellectual property laws.
                 </p>
               </div>
               <div className="rounded-lg bg-red-50 border border-red-200 p-5">
@@ -175,7 +174,7 @@ export const LegalNotice = () => {
             </div>
             <div className="rounded-lg bg-slate-50 border border-slate-200 p-6">
               <p className="text-slate-700 leading-relaxed">
-                While BiblioSmart Inc. strives to provide accurate, complete, and up-to-date information on this website, we make <span className="font-semibold text-slate-900">no warranties or representations</span> regarding the accuracy, completeness, or reliability of any content. We shall not be liable for any direct, indirect, incidental, consequential, or punitive damages arising from your access to or use of this website, including but not limited to technical issues, service interruptions, data loss, or any damages resulting from decisions made based on website content.
+                While BiblioSmart strives to provide accurate, complete, and up-to-date information on this website, we make <span className="font-semibold text-slate-900">no warranties or representations</span> regarding the accuracy, completeness, or reliability of any content. We shall not be liable for any direct, indirect, incidental, consequential, or punitive damages arising from your access to or use of this website, including but not limited to technical issues, service interruptions, data loss, or any damages resulting from decisions made based on website content.
               </p>
             </div>
           </section>
@@ -190,7 +189,7 @@ export const LegalNotice = () => {
             </div>
             <div className="rounded-lg bg-slate-50 border border-slate-200 p-6">
               <p className="text-slate-700 leading-relaxed">
-                These terms and all related matters shall be governed by and construed in accordance with the laws of the <span className="font-semibold text-slate-900">State of New York, United States</span>, without regard to its conflict of law provisions. Any disputes, claims, or controversies arising from or relating to this website or these terms shall be subject to the <span className="font-semibold text-slate-900">exclusive jurisdiction</span> of the state and federal courts located in New York County, New York.
+                These terms and all related matters shall be governed by and construed in accordance with the laws of <span className="font-semibold text-slate-900">Germany</span>, without regard to its conflict of law provisions. Any disputes, claims, or controversies arising from or relating to this website or these terms shall be subject to the <span className="font-semibold text-slate-900">exclusive jurisdiction</span> of the courts located in Aachen, Germany.
               </p>
             </div>
           </section>
@@ -207,10 +206,10 @@ export const LegalNotice = () => {
               <p className="text-slate-700 mb-4">For legal inquiries, questions, or concerns regarding this notice:</p>
               <div className="space-y-2">
                 <p className="text-slate-700">
-                  <span className="font-semibold text-slate-900">Email:</span> <span className="text-green-600 font-semibold">legal@bibliosmart.com</span>
+                  <span className="font-semibold text-slate-900">Email:</span> <span className="text-green-600 font-semibold">zaksab98@gmail.com</span>
                 </p>
                 <p className="text-slate-700">
-                  <span className="font-semibold text-slate-900">Phone:</span> <span className="font-semibold">+1 (555) 123-4567</span>
+                  <span className="font-semibold text-slate-900">Phone:</span> <span className="font-semibold">+49 176 20827199</span>
                 </p>
               </div>
             </div>

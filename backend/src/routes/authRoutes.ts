@@ -3,9 +3,11 @@ import { z } from 'zod';
 import {
   register,
   login,
-  refreshAccessToken,
+  refreshToken,
   logout,
-  getCurrentUser,
+  getProfile,
+  updateProfile,
+  changePassword
 } from '../controllers/authController';
 import { authenticate } from '../middleware/auth';
 import { validate } from '../middleware/validator';
@@ -15,13 +17,8 @@ const router = Router();
 // Validation schemas
 const registerSchema = z.object({
   email: z.string().email('Invalid email format'),
-  password: z
-    .string()
-    .min(8, 'Password must be at least 8 characters')
-    .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
-    .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
-    .regex(/[0-9]/, 'Password must contain at least one number'),
-  name: z.string().min(2, 'Name must be at least 2 characters'),
+  password: z.string().min(8, 'Password must be at least 8 characters'),
+  name: z.string().min(2, 'Name must be at least 2 characters').optional(),
 });
 
 const loginSchema = z.object({
@@ -29,15 +26,15 @@ const loginSchema = z.object({
   password: z.string().min(1, 'Password is required'),
 });
 
-const refreshTokenSchema = z.object({
-  refreshToken: z.string().min(1, 'Refresh token is required'),
-});
-
-// Routes
+// Public routes
 router.post('/register', validate(registerSchema), register);
 router.post('/login', validate(loginSchema), login);
-router.post('/refresh', validate(refreshTokenSchema), refreshAccessToken);
+router.post('/refresh', refreshToken);
 router.post('/logout', logout);
-router.get('/me', authenticate, getCurrentUser);
+
+// Protected routes
+router.get('/profile', authenticate, getProfile);
+router.put('/profile', authenticate, updateProfile);
+router.post('/change-password', authenticate, changePassword);
 
 export default router;

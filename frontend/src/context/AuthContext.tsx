@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
-import { initializeAdminAccount } from "../utils/initAdmin";
+import { API_ENDPOINTS } from "../config/api";
 
 export type UserRole = "admin" | "user";
 
@@ -9,14 +9,15 @@ export interface User {
   name: string;
   email: string;
   role: UserRole;
+  token?: string;
 }
 
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  login: (email: string, password: string) => boolean;
-  register: (name: string, email: string, password: string, role?: UserRole) => boolean;
+  login: (email: string, password: string) => Promise<boolean>;
+  register: (name: string, email: string, password: string, role?: UserRole) => Promise<boolean>;
   logout: () => void;
 }
 
@@ -27,15 +28,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
-  // Load user from localStorage on mount and initialize admin
+  // Load user from localStorage on mount
   useEffect(() => {
-    // Initialize default admin account
-    initializeAdminAccount();
-
     const storedUser = localStorage.getItem("bibliosmart_user");
     if (storedUser) {
       try {
-        setUser(JSON.parse(storedUser));
+        const parsedUser = JSON.parse(storedUser);
+        setUser(parsedUser);
       } catch (error) {
         console.error("Failed to parse stored user:", error);
         localStorage.removeItem("bibliosmart_user");
@@ -44,62 +43,100 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setIsLoading(false);
   }, []);
 
-  const login = (email: string, password: string): boolean => {
-    // Check registered users from localStorage
-    const registeredUsers = JSON.parse(localStorage.getItem("bibliosmart_registered_users") || "[]");
-    const foundUser = registeredUsers.find(
-      (u: any) => u.email === email && u.password === password
-    );
+  const login = async (email: string, password: string): Promise<boolean> => {
+    try {
+      const response = await fetch(API_ENDPOINTS.login, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include", // Include cookies
+        body: JSON.stringify({ email, password }),
+      });
 
-    if (foundUser) {
-      const loggedInUser: User = {
-        id: foundUser.id,
-        name: foundUser.name,
-        email: foundUser.email,
-        role: foundUser.role
-      };
-      setUser(loggedInUser);
-      localStorage.setItem("bibliosmart_user", JSON.stringify(loggedInUser));
-
-      // Navigate based on role
-      if (foundUser.role === "admin") {
-        navigate("/admin");
-      } else {
-        navigate("/utilisateur");
+      if (!response.ok) {
+        const error = await response.json().catch(() => ({ error: "Login failed" }));
+        console.error("Login error:", error);
+        return false;
       }
-      return true;
-    }
 
-    return false;
-  };
+      const data = await response.json();
 
-  const register = (name: string, email: string, password: string, role: UserRole = "user"): boolean => {
-    // Get existing registered users
-    const registeredUsers = JSON.parse(localStorage.getItem("bibliosmart_registered_users") || "[]");
+      if (data.success && data.data) {
+        // Backend returns: { success: true, data: { user, token } }
+        const { user: userData, token } = data.data;
 
-    // Check if email already exists
-    const emailExists = registeredUsers.some((u: any) => u.email === email);
-    if (emailExists) {
+        const loggedInUser: User = {
+          id: userData.id,
+          name: userData.name,
+          email: userData.email,
+          role: userData.role.toLowerCase() as UserRole,
+          token: token
+        };
+
+        setUser(loggedInUser);
+        localStorage.setItem("bibliosmart_user", JSON.stringify(loggedInUser));
+
+        // Navigate based on role
+        if (loggedInUser.role === "admin") {
+          navigate("/admin");
+        } else {
+          navigate("/utilisateur");
+        }
+
+        return true;
+      }
+
+      return false;
+    } catch (error) {
+      console.error("Login request failed:", error);
       return false;
     }
-
-    // Create new user
-    const newUser = {
-      id: `user-${Date.now()}`,
-      name,
-      email,
-      password, // In a real app, this should be hashed
-      role: role
-    };
-
-    // Save to localStorage
-    registeredUsers.push(newUser);
-    localStorage.setItem("bibliosmart_registered_users", JSON.stringify(registeredUsers));
-
-    return true;
   };
 
-  const logout = () => {
+  const register = async (name: string, email: string, password: string, role: UserRole = "user"): Promise<boolean> => {
+    try {
+      const response = await fetch(API_ENDPOINTS.register, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({ name, email, password, role: role.toUpperCase() }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json().catch(() => ({ error: "Registration failed" }));
+        console.error("Registration error:", error);
+        return false;
+      }
+
+      const data = await response.json();
+
+      if (data.success) {
+        return true;
+      }
+
+      return false;
+    } catch (error) {
+      console.error("Registration request failed:", error);
+      return false;
+    }
+  };
+
+  const logout = async () => {
+    try {
+      // Try to logout from backend
+      await fetch(API_ENDPOINTS.logout, {
+        method: "POST",
+        credentials: "include",
+      }).catch(() => {
+        // Ignore errors, we're logging out anyway
+      });
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+
     setUser(null);
     localStorage.removeItem("bibliosmart_user");
     navigate("/");

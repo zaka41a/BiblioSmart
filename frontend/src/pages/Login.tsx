@@ -19,17 +19,16 @@ export const Login = () => {
   });
   const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
-    const success = login(formData.email, formData.password);
+    const success = await login(formData.email, formData.password);
 
-    if (success) {
-      // Navigation will be handled by AuthContext
-    } else {
+    if (!success) {
       setError("Invalid email or password");
     }
+    // Navigation will be handled by AuthContext on success
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -31,8 +31,8 @@ const navItems: NavItem[] = [
   { path: "/privacy-policy", label: "Privacy", icon: FiShield },
   { path: "/utilisateur", label: "My Books", icon: FiBookOpen, roles: ["user"] },
   { path: "/profile-settings", label: "Profile Settings", icon: FiUser, roles: ["user"] },
-  { path: "/admin/books", label: "Manage Books", icon: FiBookOpen, roles: ["admin"] },
-  { path: "/admin/users", label: "Manage Users", icon: FiUser, roles: ["admin"] },
+  { path: "/admin/books", label: "Books", icon: FiBookOpen, roles: ["admin"] },
+  { path: "/admin/users", label: "Users", icon: FiUser, roles: ["admin"] },
   { path: "/admin/analytics", label: "Analytics", icon: FiTrendingUp, roles: ["admin"] },
   { path: "/admin/settings", label: "Settings", icon: FiSettings, roles: ["admin"] }
 ];

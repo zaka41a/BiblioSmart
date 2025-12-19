@@ -48,39 +48,26 @@ export const BookProvider = ({ children }: { children: ReactNode }) => {
       setIsLoading(true);
       setError(null);
 
-      const response = await apiRequest<BooksResponse>(API_ENDPOINTS.books);
-      setBooks(response.items);
+      const response = await apiRequest<{ books: Book[] } | BooksResponse>(API_ENDPOINTS.books);
 
-      // Cache in localStorage as backup
-      localStorage.setItem("bibliosmart_books_cache", JSON.stringify(response.items));
+      // Handle different response formats
+      let booksData: Book[] = [];
+      if ('books' in response) {
+        // Backend format: { books: [...] }
+        booksData = response.books;
+      } else if ('items' in response) {
+        // Paginated format: { items: [...], total, page, pageSize }
+        booksData = response.items;
+      } else if (Array.isArray(response)) {
+        // Direct array format
+        booksData = response;
+      }
+
+      setBooks(booksData);
     } catch (err: any) {
       console.error("Failed to load books from API:", err);
       setError(err.message || "Failed to load books");
-
-      // Fallback to cached data if available
-      const cachedBooks = localStorage.getItem("bibliosmart_books_cache");
-      if (cachedBooks) {
-        setBooks(JSON.parse(cachedBooks));
-        console.log("Loaded books from cache");
-      } else {
-        // Fallback to demo data if no cache
-        const initialBooks: Book[] = [
-        {
-          id: "demo-1",
-          title: "Clean Code",
-          author: "Robert C. Martin",
-          category: "Technology",
-          year: 2008,
-          isbn: "9780132350884",
-          available: true,
-          price: 0,
-          description: "Demo book - Backend connection failed",
-          pdfUrl: "",
-          totalPages: 464
-        }
-      ];
-        setBooks(initialBooks);
-      }
+      setBooks([]); // Clear books on error
     } finally {
       setIsLoading(false);
     }

@@ -20,6 +20,7 @@ import { useBooks } from "../context/BookContext";
 import { Button } from "../components/ui/Button";
 import { useToast } from "../hooks/useToast";
 import { ToastContainer } from "../components/ui/Toast";
+import { DeleteConfirmationModal } from "../components/ui/DeleteConfirmationModal";
 
 export const BookManagement = () => {
   const { books, addBook, updateBook, deleteBook } = useBooks();
@@ -27,6 +28,9 @@ export const BookManagement = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingBook, setEditingBook] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [bookToDelete, setBookToDelete] = useState<{ id: string; title: string } | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     author: "",
@@ -102,18 +106,35 @@ export const BookManagement = () => {
     }
   };
 
-  const handleDelete = async (bookId: string) => {
+  const handleDelete = (bookId: string) => {
     const book = books.find(b => b.id === bookId);
-    const bookTitle = book ? book.title : "this book";
+    if (book) {
+      setBookToDelete({ id: bookId, title: book.title });
+      setIsDeleteModalOpen(true);
+    }
+  };
 
-    if (window.confirm(`Are you sure you want to delete "${bookTitle}"?\n\nThis action cannot be undone.`)) {
-      try {
-        await deleteBook(bookId);
-        success(`"${bookTitle}" has been deleted successfully!`);
-      } catch (err: any) {
-        console.error("Delete book error:", err);
-        error(`Failed to delete book: ${err.message || "Unknown error"}`);
-      }
+  const confirmDelete = async () => {
+    if (!bookToDelete) return;
+
+    setIsDeleting(true);
+    try {
+      await deleteBook(bookToDelete.id);
+      success(`"${bookToDelete.title}" has been deleted successfully!`);
+      setIsDeleteModalOpen(false);
+      setBookToDelete(null);
+    } catch (err: any) {
+      console.error("Delete book error:", err);
+      error(`Failed to delete book: ${err.message || "Unknown error"}`);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  const closeDeleteModal = () => {
+    if (!isDeleting) {
+      setIsDeleteModalOpen(false);
+      setBookToDelete(null);
     }
   };
 
@@ -145,7 +166,7 @@ export const BookManagement = () => {
               <div className="rounded-lg bg-white/20 p-2 backdrop-blur-sm">
                 <FiBookOpen className="h-6 w-6 text-white" />
               </div>
-              <h1 className="text-3xl font-bold text-white">Book Management</h1>
+              <h1 className="text-3xl font-bold text-white">Books</h1>
             </div>
             <p className="text-green-100">
               Manage your library books ({books.length} total)
@@ -383,7 +404,7 @@ export const BookManagement = () => {
                       onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                       className="w-full rounded-xl border-2 border-slate-200 px-4 py-3 text-slate-700 transition-all focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-500/10"
                     >
-                      <option value="">Select category</option>
+                      {!editingBook && <option value="">Select category</option>}
                       {categories.map(cat => (
                         <option key={cat} value={cat}>{cat}</option>
                       ))}
@@ -635,6 +656,15 @@ export const BookManagement = () => {
           </motion.div>
         </div>
       )}
+
+      {/* Delete Confirmation Modal */}
+      <DeleteConfirmationModal
+        isOpen={isDeleteModalOpen}
+        onClose={closeDeleteModal}
+        onConfirm={confirmDelete}
+        bookTitle={bookToDelete?.title || ""}
+        isDeleting={isDeleting}
+      />
 
       {/* Toast Notifications */}
       <ToastContainer toasts={toasts} onRemove={removeToast} />

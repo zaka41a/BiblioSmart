@@ -30,18 +30,42 @@ export const API_ENDPOINTS = {
   health: `${API_BASE_URL}/health`,
 };
 
+// Get auth token from localStorage
+const getAuthToken = (): string | null => {
+  const user = localStorage.getItem("bibliosmart_user");
+  if (user) {
+    try {
+      const parsedUser = JSON.parse(user);
+      return parsedUser.token || null;
+    } catch {
+      return null;
+    }
+  }
+  return null;
+};
+
 // API Helper Functions
 export const apiRequest = async <T>(
   url: string,
   options?: RequestInit
 ): Promise<T> => {
   try {
+    // Get auth token if available
+    const token = getAuthToken();
+    const headers: HeadersInit = {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    };
+
+    // Add Authorization header if token exists
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+
     const response = await fetch(url, {
       ...options,
-      headers: {
-        "Content-Type": "application/json",
-        ...options?.headers,
-      },
+      headers,
+      credentials: "include", // Include cookies for JWT refresh tokens
     });
 
     if (!response.ok) {
@@ -57,7 +81,12 @@ export const apiRequest = async <T>(
     // Check if response has content
     const contentType = response.headers.get("content-type");
     if (contentType && contentType.includes("application/json")) {
-      return await response.json();
+      const data = await response.json();
+      // Handle backend response format { success: true, data: {...} }
+      if (data.success && data.data) {
+        return data.data as T;
+      }
+      return data as T;
     }
 
     // For non-JSON responses

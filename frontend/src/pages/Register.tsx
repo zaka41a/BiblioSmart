@@ -25,7 +25,7 @@ export const Register = () => {
   });
   const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
@@ -40,12 +40,12 @@ export const Register = () => {
       return;
     }
 
-    const success = register(formData.name, formData.email, formData.password);
+    const success = await register(formData.name, formData.email, formData.password);
 
     if (success) {
       navigate("/login");
     } else {
-      setError("Email already exists");
+      setError("Email already exists or registration failed");
     }
   };
 

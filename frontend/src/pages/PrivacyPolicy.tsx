@@ -307,10 +307,13 @@ export const PrivacyPolicy = () => {
               </p>
               <div className="space-y-2">
                 <p className="text-slate-700">
-                  <span className="font-semibold text-slate-900">Privacy Team Email:</span> <span className="text-green-600 font-semibold">privacy@bibliosmart.com</span>
+                  <span className="font-semibold text-slate-900">Privacy Team Email:</span> <span className="text-green-600 font-semibold">zaksab98@gmail.com</span>
                 </p>
                 <p className="text-slate-700">
-                  <span className="font-semibold text-slate-900">Phone:</span> <span className="font-semibold">+1 (555) 123-4567</span>
+                  <span className="font-semibold text-slate-900">Support Email:</span> <span className="text-green-600 font-semibold">support@bibliosmart.com</span>
+                </p>
+                <p className="text-slate-700">
+                  <span className="font-semibold text-slate-900">Phone:</span> <span className="font-semibold">+49 176 20827199</span>
                 </p>
                 <p className="text-slate-700">
                   <span className="font-semibold text-slate-900">Response Time:</span> <span className="font-semibold">Within 48 hours</span>
