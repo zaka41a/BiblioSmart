@@ -61,8 +61,10 @@ export const BookDetail = () => {
       // If Stripe is not enabled or configured, use direct purchase
       if (!enabled || !publicKey) {
         console.warn("Stripe not configured. Using direct purchase.");
-        purchaseBook(user.id, book.id, book.price || 0);
-        alert(`Successfully purchased "${book.title}"! You can now read it from your dashboard.`);
+        const directPurchase = await purchaseBook(book.id);
+        if (directPurchase) {
+          alert(`Successfully purchased "${book.title}"! You can now read it from your dashboard.`);
+        }
         setIsProcessing(false);
         return;
       }
@@ -88,9 +90,11 @@ export const BookDetail = () => {
       });
 
       // Simulate successful purchase after a delay
-      setTimeout(() => {
-        purchaseBook(user.id, book.id, book.price || 0);
-        alert(`Successfully purchased "${book.title}"! You can now read it from your dashboard.`);
+      setTimeout(async () => {
+        const success = await purchaseBook(book.id);
+        if (success) {
+          alert(`Successfully purchased "${book.title}"! You can now read it from your dashboard.`);
+        }
         setIsProcessing(false);
       }, 1500);
 

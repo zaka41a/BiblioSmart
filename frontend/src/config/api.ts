@@ -52,14 +52,12 @@ export const apiRequest = async <T>(
   try {
     // Get auth token if available
     const token = getAuthToken();
-    const headers: HeadersInit = {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    };
+    const headers = new Headers(options?.headers as HeadersInit);
+    headers.set("Content-Type", "application/json");
 
     // Add Authorization header if token exists
     if (token) {
-      headers["Authorization"] = `Bearer ${token}`;
+      headers.set("Authorization", `Bearer ${token}`);
     }
 
     const response = await fetch(url, {

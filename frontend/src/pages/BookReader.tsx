@@ -52,7 +52,7 @@ export const BookReader = () => {
     );
   }
 
-  if (!user || !canUserAccessBook(user.id, book.id, book.price || 0)) {
+  if (!user || !canUserAccessBook(book.id, book.price || 0)) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <div className="text-center">

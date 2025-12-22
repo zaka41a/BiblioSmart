@@ -67,12 +67,14 @@ export const UserDashboard = () => {
     ...purchasedBooksWithDetails.map(item => ({
       book: item.book!,
       isPaid: true,
-      purchaseDate: item.purchase.purchaseDate
+      purchaseDate: item.purchase.purchaseDate,
+      purchaseId: item.purchase.id
     })),
     ...freeBooks.map(book => ({
       book,
       isPaid: false,
-      purchaseDate: null
+      purchaseDate: null,
+      purchaseId: undefined
     }))
   ];
 
@@ -89,14 +91,20 @@ export const UserDashboard = () => {
     navigate(`/read/${bookId}`);
   };
 
-  const handleRemoveBook = (bookId: string, isPaid: boolean) => {
+  const handleRemoveBook = async (bookId: string, isPaid: boolean, purchaseId?: string) => {
     if (!user) return;
 
     if (isPaid) {
+      if (!purchaseId) {
+        error("Unable to locate this purchase. Please refresh and try again.");
+        return;
+      }
       // Remove purchased book
       if (window.confirm("Are you sure you want to remove this book from your library? You will need to purchase it again to access it.")) {
-        removePurchase(user.id, bookId);
-        success("Book removed from your library");
+        const removed = await removePurchase(purchaseId);
+        if (removed) {
+          success("Book removed from your library");
+        }
       }
     } else {
       // For free books, we can't really remove them as they're accessible to all
@@ -164,7 +172,7 @@ export const UserDashboard = () => {
         ) : (
           <div className="grid gap-6 lg:grid-cols-3">
             {accessibleBooks.map((item) => {
-              const { book, isPaid, purchaseDate } = item;
+              const { book, isPaid, purchaseDate, purchaseId } = item;
 
               return (
                 <article
@@ -251,7 +259,7 @@ export const UserDashboard = () => {
                           </Button>
                           {isPaid && (
                             <button
-                              onClick={() => handleRemoveBook(book.id, isPaid)}
+                              onClick={() => handleRemoveBook(book.id, isPaid, purchaseId)}
                               className="group flex items-center justify-center gap-2 rounded-xl bg-red-50 border-2 border-red-200 px-4 py-3 font-semibold text-red-600 transition-all hover:bg-red-500 hover:border-red-500 hover:text-white hover:shadow-lg"
                               title="Remove from library"
                             >

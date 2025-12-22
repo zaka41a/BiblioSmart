@@ -87,7 +87,7 @@ export const Catalogue = () => {
       return;
     }
 
-    if (canUserAccessBook(user.id, book.id, book.price)) {
+    if (canUserAccessBook(book.id, book.price)) {
       navigate(`/read/${book.id}`);
     } else {
       setSelectedBook(book);
@@ -95,14 +95,16 @@ export const Catalogue = () => {
     }
   };
 
-  const handlePurchase = () => {
+  const handlePurchase = async () => {
     if (!user || !selectedBook) return;
 
-    purchaseBook(user.id, selectedBook.id, selectedBook.price);
-    setShowPaymentModal(false);
-    setSelectedBook(null);
-
-    navigate(`/read/${selectedBook.id}`);
+    const purchased = await purchaseBook(selectedBook.id);
+    if (purchased) {
+      setShowPaymentModal(false);
+      const targetId = selectedBook.id;
+      setSelectedBook(null);
+      navigate(`/read/${targetId}`);
+    }
   };
 
   return (
@@ -328,7 +330,7 @@ export const Catalogue = () => {
                     <FiBookOpen className="inline h-4 w-4 mr-1.5" />
                     Read Free
                   </button>
-                ) : hasUserPurchased(user.id, book.id) ? (
+                ) : hasUserPurchased(book.id) ? (
                   <button
                     onClick={() => handleReadBook(book)}
                     className="w-full rounded-lg bg-emerald-600 py-3 font-semibold text-white shadow-sm transition-all hover:bg-emerald-700 hover:shadow-md"

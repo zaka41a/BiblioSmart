@@ -64,7 +64,7 @@ BiblioSmart Team
 
 ### Step 5: Configure in BiblioSmart
 
-1. Log in to BiblioSmart as **admin** (`admin@library.com` / `admin123`)
+1. Log in to BiblioSmart as **admin** (`admin@BiblioSmart.com` / `qwertz@@`)
 2. Go to **Admin Dashboard** → **System Settings**
 3. Click on the **Email Configuration** tab
 4. Enter your EmailJS credentials:
