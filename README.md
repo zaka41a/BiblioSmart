@@ -1,134 +1,131 @@
-# BiblioSmart · Modern Library SaaS
+<div align="center">
 
-> **BiblioSmart** is a full-stack SaaS platform that helps libraries deliver premium digital reading experiences, operate multi-role back offices, and unlock subscription revenue with enterprise-grade security in mind.
+# ✨ BiblioSmart — Premium Library SaaS
 
----
+**Empower every library with a beautiful reader experience, data-driven ops cockpit, and enterprise-ready guardrails.**
 
-## Vision & Objectives
+[![React](https://img.shields.io/badge/React-18-61dafb?style=flat&logo=react)](#) [![Next Gen](https://img.shields.io/badge/TypeScript-5-2f74c0?style=flat&logo=typescript)](#) [![Prisma](https://img.shields.io/badge/Prisma-ORM-2d3748?style=flat&logo=prisma)](#) [![Express](https://img.shields.io/badge/Express-API-111?style=flat&logo=express)](#)
 
-- Provide a unified catalog + reading experience that feels like a native app for patrons.
-- Give library teams admin tooling (catalog, users, analytics, invoices) that is fast, friendly, and auditable.
-- Offer SaaS guardrails: tenancy isolation, subscription management, automated onboarding, and deployment playbooks.
-- Ship in a way that a real startup can iterate on: typed stack, automation-ready scripts, security-first defaults.
+🔗 **Live stack**: React + Vite + Tailwind • Express + Prisma + PostgreSQL • JWT, EmailJS, Stripe-ready  
+🧭 **Docs**: See [`DOCUMENTATION.md`](DOCUMENTATION.md) for the full playbook.
 
----
-
-## Product Pillars & Current Feature Set
-
-### Reader & Patron Experience
-- Marketing/landing page with value prop, social proof, and dynamic metrics (`frontend/src/pages/Home.tsx`).
-- Public catalog: faceted search, debounced filtering, animated cards, and availability toggles (`pages/Catalogue.tsx`).
-- Detail view with pricing, Stripe-ready purchase hooks, share CTAs, and PDF download (`pages/BookDetail.tsx`).
-- Secure reader built on `react-pdf` (zoom, pagination, fullscreen, download fallback, paywall guard) (`pages/BookReader.tsx`).
-- Auth flows: login, register, forgot/reset password with EmailJS fallback, and protected routing.
-
-### Librarian & Admin Suite
-- Admin dashboard + quick-launch tiles (`pages/AdminDashboard.tsx`).
-- Book management CRUD with validation, toasts, and delete confirmations (`pages/BookManagement.tsx`).
-- User management with search, inline edits, role toggles, and delete protection (`pages/UserManagement.tsx`).
-- Analytics powered by `recharts` (revenue, sales, category distribution, top sellers) (`pages/Analytics.tsx`).
-- Settings hub for email + payment configuration, general SaaS toggles, and helper copy (`pages/Settings.tsx`).
-- Static operational pages (legal notice, privacy policy, contact).
-
-### Platform & API Capabilities
-- Monorepo using npm workspaces (`package.json`) with isolated frontend/backend packages.
-- Backend API (Express + TypeScript + Prisma) with controllers for auth, books, purchases, and users.
-- JWT auth with HTTP-only cookies, refresh tokens, bcrypt passwords, per-route Zod validation.
-- Prisma schema + seeds for users, books, purchases, refresh tokens (`backend/prisma`).
-- Rate limiting (`middleware/rateLimiter.ts`), Helmet, CORS with origin allow-list, centralized error handling.
-- Email service for password reset tokens (EmailJS metadata bridge) and extensibility hooks.
-- Stripe service + multi-tenancy services prepared for next milestones (`backend/src/services`).
+</div>
 
 ---
 
-## In-flight / Upcoming Capabilities
+## 🚀 Why BiblioSmart?
 
-See `SAAS_ROADMAP.md` for full detail. Highlights already scaffolded in the codebase:
-
-- **True multi-tenancy**: `Organization` + `Subscription` models, tenant-aware middleware, plan limits.
-- **Stripe subscriptions**: checkout, billing portal, lifecycle webhooks, plan upgrades/downgrades, cancellation.
-- **File management**: S3/Cloudinary integration for covers/PDFs with per-plan quotas and CDN delivery.
-- **Transactional email**: move from EmailJS demo mode to SendGrid/Mailgun/Resend for welcome, invoices, reminders.
-- **Observability**: structured logging, Sentry, and product analytics instrumentation.
-- **CI/CD**: deployment scripts for Railway/Vercel, secrets automation, and staged environments.
+- **Modern reader experience** with animated catalog cards, immersive PDF reader, and free/paid access control.
+- **Ops cockpit** for librarians: book/user CRUD, analytics, settings, and SaaS-ready toggles.
+- **Security baked in**: JWT cookies, rate limiting, Helmet, Zod validation, password reset tokens, doc’d audits.
+- **Multi-tenant + Stripe foundations** prepared for real subscription plans and billing automation.
+- **Serious documentation**: deployment, security, beta plan, production readiness, roadmap, final implementation report.
 
 ---
 
-## Technical Stack
+## 🌟 Product Vision & Goals
 
-| Layer | Technologies & Notes |
+| 🎯 Goal | ✅ Current Status |
 | --- | --- |
-| Frontend | React 18, Vite, TypeScript, Tailwind CSS, Framer Motion, Recharts, React Router, Zustand, EmailJS, Stripe.js, React PDF |
-| Backend API | Node.js 18, Express, TypeScript, Prisma, PostgreSQL, bcrypt, JWT, Zod validation, Helmet, CORS, express-rate-limit, Multer/Cloudinary placeholders |
-| Tooling & DX | npm workspaces, ESLint, Prettier, Tailwind CLI, Nodemon, ts-node, Prisma Migrate/Studio, PostCSS, Husky-ready scripts |
-| Documentation | Deployment/security/runbooks (`ADMIN_SETUP_GUIDE.md`, `SECURITY_IMPLEMENTATION.md`, `PRODUCTION_DEPLOYMENT_GUIDE.md`, etc.) |
+| Deliver Netflix-grade reading UX for patrons | Hero landing page, catalog with filters, BookDetail + paywall, BookReader |
+| Streamline librarian workflows | Dedicated Admin dashboard, Book/User management, analytics, settings |
+| Turn libraries into SaaS customers | Purchase flows, Stripe integration scaffolding, plan-based limits pending |
+| Ship like a startup | Monorepo with typed stack, workspace scripts, runbooks, and production guides |
 
 ---
 
-## Architecture Overview
+## 🌈 Feature Universe
 
-BiblioSmart follows a clean separation between client and API while sharing typings and environment contracts through workspace scripts.
+### 📚 Patron Experience
+- Landing page with motion badges, KPI counters, testimonials hooks.
+- Catalog search with debounced queries, genre pills, availability filter, and stats banner.
+- Book detail page featuring pricing badge, call-to-actions, favorites, sample review cards.
+- Secure PDF reader: zoom, pagination, fullscreen, downloads, graceful fallback when no PDF.
+- Auth flows: login/register, forgot/reset password (EmailJS fallback), protected routes per role.
+
+### 🛠 Librarian & Admin Suite
+- Admin dashboard hero + quick actions cards.
+- Book CRUD with modal forms, validation, toasts, delete confirmation, CSV-ready layout.
+- User management: search, inline edit modal, role toggle, password reset and deletion guardrails.
+- Analytics view (Recharts): revenue, sales trend, categories distribution, top sellers table.
+- Settings center with tabs (Email, Payment, General) persisting to `localStorage`.
+- Legal, privacy, contact, and contextual helper text for public transparency.
+
+### 🧱 Platform Services
+- Express API using modular controllers, Prisma ORM, typed middleware, and health endpoint.
+- Prisma schema for `users`, `books`, `purchases`, `refresh_tokens` + seed data.
+- Purchase controller for direct acquisitions, stats endpoints, and admin oversight.
+- Email service with crypto-secured reset tokens + metadata bridging to EmailJS.
+- Stripe + Organization services ready for multi-tenant subscription lifecycle (routes parked for rollout).
+
+---
+
+## 🧠 Architecture in a Glance
 
 ```
-Browser (React, Tailwind, Router, Zustand)
-        │ REST / Fetch, Cookies, Stripe.js
+Client (React 18 + Vite + Tailwind + Zustand)
+        │ REST / Fetch API
         ▼
-Express API (Controllers → Services → Prisma DAO)
+Express API (Controllers → Services → Middleware)
         │
 Prisma Client
         │
-PostgreSQL (users, books, purchases, refresh_tokens, future org/subscription tables)
+PostgreSQL (users, books, purchases, refresh_tokens + future org/subscription tables)
 ```
 
-Key flows:
-- Auth: React context → `/api/auth/*` → cookies + refresh token rotation.
-- Catalog: BookContext fetches `/api/books`, caches client-side, exposes CRUD to admin views.
-- Purchases: PurchaseContext wraps `/api/purchases` endpoints and enforces access control in BookReader.
-- Password reset: EmailJS integration requests `/api/auth/forgot-password` (backend returns template payload + secure token).
-- Stripe & tenancy: service classes prepared for plan-aware logic even if routes are currently disabled.
+- **Front**: Context providers (Auth/Books/Purchases) abstract API access and caching.  
+- **Back**: Express server wires routes with Zod validation, authentication middleware, and rate limiting.  
+- **Docs-first**: `/` holds guides for operations, security, Stripe, rollout plans, and reporting.
 
 ---
 
-## Repository Layout
+## 🧩 Stack Deep Dive
+
+| Layer | Ingredients |
+| --- | --- |
+| Frontend | React 18, TypeScript, Vite, TailwindCSS, Framer Motion, React Router, Recharts, React PDF, EmailJS, Stripe.js, Zustand |
+| Backend | Node.js 18, Express, TypeScript, Prisma, PostgreSQL, bcrypt, JWT (access+refresh), Zod, Helmet, express-rate-limit, Multer/Cloudinary ready |
+| Tooling / DX | npm workspaces, ESLint, Prettier, Tailwind CLI, ts-node, Nodemon, Prisma Migrate/Studio, PostCSS, Husky-ready scripts |
+| Ops Docs | `ADMIN_SETUP_GUIDE.md`, `SECURITY_IMPLEMENTATION.md`, `PRODUCTION_DEPLOYMENT_GUIDE.md`, `STRIPE_SETUP_GUIDE.md`, etc. |
+
+---
+
+## 🗂 Repository Topology
 
 ```
 .
-├── backend/                     # Express API
-│   ├── prisma/                  # Schema, migrations, seed data
+├── backend/
+│   ├── prisma/           # schema, migrations, seed
 │   └── src/
-│       ├── config/              # Prisma singleton, env helpers
-│       ├── controllers/         # Auth, books, users, purchases
-│       ├── middleware/          # Auth, rate limiting, validation, errors
-│       ├── routes/              # Route registrations (+ future .disabled routes)
-│       ├── services/            # Stripe, organizations, email
-│       ├── utils/               # JWT, password helpers
-│       └── server.ts            # API bootstrap
-├── frontend/                    # React app (Vite + Tailwind)
+│       ├── config/       # Prisma singleton, env helpers
+│       ├── controllers/  # auth, books, purchases, users
+│       ├── middleware/   # auth, rate limiting, validation, errors
+│       ├── routes/       # v1 endpoints (+ future *.disabled routes)
+│       ├── services/     # email, stripe, organization
+│       └── utils/        # jwt, password helpers
+├── frontend/
 │   ├── src/
-│   │   ├── pages/               # Feature screens (catalog, dashboards, settings…)
-│   │   ├── components/          # UI primitives, auth helpers
-│   │   ├── context/             # Auth, Books, Purchases providers
-│   │   ├── hooks/               # Theme, debounce, toasts
-│   │   ├── config/ & api/       # REST helpers & endpoints
-│   │   └── styles/              # Tailwind layers
-│   └── public/                  # Static assets, favicons
-├── docs/*.md                    # Operational guides (security, roadmap, deployment…)
-└── package.json                 # Workspace orchestration
+│   │   ├── pages/        # Home, Catalogue, BookDetail, Admin suites…
+│   │   ├── components/   # UI kit + auth helpers
+│   │   ├── context/      # Auth/Book/Purchase providers
+│   │   ├── hooks/        # useTheme, useDebouncedValue, toasts
+│   │   └── config/api/   # Endpoint registry + fetch helper
+│   └── public/           # Static assets
+├── docs/*.md             # Operational guides & reports
+└── README.md             # ← you are here
 ```
-
-Each doc in `/` (e.g. `SECURITY_IMPLEMENTATION.md`, `PROGRESS_REPORT.md`, `STRIPE_SETUP_GUIDE.md`) is production-ready documentation for onboarding ops, devs, and auditors.
 
 ---
 
-## Local Development
+## 🛠 Local Development
 
 ### Prerequisites
 - Node.js ≥ 18
-- npm ≥ 8 (workspaces aware)
-- PostgreSQL 14+ (local instance or managed service)
-- Optional: Docker for DB, Stripe CLI for webhook testing
+- npm ≥ 8 (workspaces)
+- PostgreSQL 14+ (local, Docker, or managed)
+- Optional: Stripe CLI, Docker
 
-### 1. Clone & install
+### 1. Install
 
 ```bash
 git clone https://github.com/your-org/BiblioSmart.git
@@ -136,14 +133,13 @@ cd BiblioSmart
 npm install
 ```
 
-### 2. Configure environment variables
+### 2. Configure `.env`
 
-Create `backend/.env`:
-
+`backend/.env` (sample):
 ```env
 DATABASE_URL="postgresql://postgres:postgres@localhost:5432/bibliosmart"
-JWT_ACCESS_SECRET="replace-with-strong-secret"
-JWT_REFRESH_SECRET="replace-with-refresh-secret"
+JWT_ACCESS_SECRET="replace-me"
+JWT_REFRESH_SECRET="replace-me-too"
 FRONTEND_URL="http://localhost:5173"
 EMAILJS_SERVICE_ID=""
 EMAILJS_TEMPLATE_ID=""
@@ -154,141 +150,114 @@ STRIPE_PRO_PRICE_ID=""
 STRIPE_ENTERPRISE_PRICE_ID=""
 ```
 
-Create `frontend/.env`:
-
+`frontend/.env`:
 ```env
 VITE_API_URL="http://localhost:5001/api"
 VITE_STRIPE_PUBLIC_KEY=""
 ```
 
-> Tip: keep secrets in Doppler, 1Password, or Railway/Vercel project vars for staging/production.
-
-### 3. Database & Prisma
+### 3. Database bootstrap
 
 ```bash
 cd backend
-npx prisma migrate dev
-npx prisma db seed   # optional sample data
-npx prisma studio    # explore tables if needed
+npx prisma db push --force-reset   # sync schema
+npx prisma db seed                 # create admin/user + sample books
 ```
 
-### 4. Run the platform
+### 4. Run apps
 
 ```bash
-# Terminal 1
-npm run dev:backend
-
-# Terminal 2
-npm run dev:frontend
+npm run dev:backend   # http://localhost:5001
+npm run dev:frontend  # http://localhost:5173
 ```
 
-- API: `http://localhost:5001/api`
-- Frontend: `http://localhost:5173`
-
-### 5. Production build
+### 5. Build & preview
 
 ```bash
-npm run build                # runs frontend + backend builds
-(cd backend && npm run start)  # serve compiled API (dist/server.js)
-(cd frontend && npm run preview) # or deploy via Vercel/Netlify
+npm run build
+(cd backend && npm run start)
+(cd frontend && npm run preview)
 ```
 
 ---
 
-## Useful Scripts
+## 🧪 Helpful Scripts
 
-| Command | Description |
+| Command | What it does |
 | --- | --- |
-| `npm run dev:frontend` | Launch Vite dev server with HMR. |
-| `npm run dev:backend` | Run Express API with Nodemon + ts-node. |
-| `npm run build` | Build frontend artifacts & transpile backend TypeScript. |
-| `npm run lint` | ESLint across workspaces. |
-| `npm run format` | Prettier pass on frontend sources. |
-| `npm run prisma:migrate` (backend) | Apply migrations. |
+| `npm run dev:frontend` | Launch Vite + React dev server with HMR. |
+| `npm run dev:backend` | Nodemon + ts-node for Express API. |
+| `npm run build` | Builds frontend assets and compiles backend to `dist/`. |
+| `npm run lint` | ESLint on both workspaces. |
+| `npm run format` | Prettier on frontend sources. |
+| `npx prisma studio` | GUI to inspect DB tables. |
 
 ---
 
-## Configuration & Data Notes
+## 🔐 Security Posture
 
-- **Seed data**: `backend/prisma/seed.ts` provisions admin/user accounts plus curated books.
-- **Docs as SOP**: runbooks walk through admin setup, beta testing, production hardening, and post-mortem reports.
-- **Feature flags**: `.disabled` route files keep experimental endpoints checked-in without shipping them.
-- **Local settings**: Email/Stripe/General settings are persisted in `localStorage` for demo/testing UX.
-
----
-
-## Best Practices Already in Place
-
-- Full TypeScript coverage (frontend + backend) with shared domain typing via Prisma.
-- Providers (`AuthContext`, `BookContext`, `PurchaseContext`) decouple network state from UI.
-- Form validation with Zod on the server, UI-level validation + friendly toasts on the client.
-- HTTP-only cookies for access tokens plus refresh rotation endpoints.
-- Rate limiting presets for API, auth, uploads, and future tenant-level throttling.
-- Documented operational playbooks for deployment, security audits, beta programs, and multi-tenancy rollout.
+- Helmet, strict CORS, rate limiters (global/auth/upload/plan-specific) wired in.
+- Passwords hashed via bcrypt; access tokens set as HTTP-only cookies + optional bearer usage.
+- Refresh tokens stored in DB with unique constraint; password reset tokens hashed and timeboxed.
+- Purchase endpoints enforce `authenticate + authorizeAdmin` where required.
+- Security runbooks with audit logs & fix history: `SECURITY_IMPLEMENTATION.md`, `SECURITY_AUDIT.md`, `SECURITY_FIXES_APPLIED.md`.
+- Next steps: enable MFA/WebAuthn, per-tenant rate limiting, CSRF tokens for cookie flows, audit logging.
 
 ---
 
-## Security
+## ⚡ Performance & Reliability
 
-- Helmet, CORS config, and `express-rate-limit` guard rails activated in `server.ts`.
-- Passwords hashed with bcrypt, refresh tokens stored in DB, reset tokens hashed via SHA-256.
-- Purchase and admin routes enforce role-based access middleware.
-- Email reset flows avoid leaking user existence and support demo-only fallback copy.
-- Stripe service ready for signature verification, webhook processing, and billing portal flows.
-- Security reports + fix logs tracked in `SECURITY_AUDIT.md` and `SECURITY_FIXES_APPLIED.md`.
-
-> Next steps: enable MFA / WebAuthn, CSRF protection, audit logging, and tenant-aware rate enforcement once multi-tenancy schema lands.
+- Vite + Tailwind JIT keeps bundles lean and stylings incremental.
+- Memoization (`useMemo`, `useDebouncedValue`), Suspense-ready contexts, and skeleton states reduce render thrash.
+- BookReader and analytics lazily load heavy libs (react-pdf, recharts).
+- Prisma client reused as singleton; query logging toggled by `NODE_ENV`.
+- Planned: CDN-backed PDF/cover uploads, Sentry/PostHog instrumentation, plan-driven throttling.
 
 ---
 
-## Performance & Reliability
+## 🗺️ Roadmap Snapshot
 
-- Vite bundling + Tailwind JIT for fast builds and minimal CSS.
-- SPA interactions use memoization (`useMemo`, `useDebouncedValue`), motion-based lazy transitions, and contextual caching.
-- Prisma client reuse prevents connection storms; logging configurable per env.
-- Analytics dashboards and BookReader split heavy components (`react-pdf`, `recharts`) to avoid blocking initial paint.
-- Planned CDN/offloading for PDFs and covers to keep API lean.
+- ✅ Core CRUD, reader flows, purchase flows, documentation suite.
+- 🔄 Password reset API wiring (routes), admin panel polish, QA automation.
+- 🚧 Multi-tenancy schema + Stripe lifecycle + plan limits.
+- 🚧 File uploads (S3/Cloudinary) + CDN + quotas.
+- 🚧 Observability stack (Sentry + PostHog/Mixpanel).
+- 🚧 Automated tests (Jest/Supertest/Playwright) + CI pipelines.
 
----
-
-## Roadmap Snapshot
-
-- ✅ Core CRUD (books/users) + reader/purchase flows.
-- 🚧 Multi-tenancy + Stripe subscriptions + organization-level limits.
-- 🚧 File storage + CDN delivery + quotas per plan.
-- 🚧 Observability and alerting (Sentry, PostHog/Mixpanel, structured logs).
-- 🚧 Automated test suites (Jest, Playwright) and CI enforcement.
-- 🚧 Advanced SaaS tooling: invitations, audit trails, SLA dashboards.
-
-Track detailed progress in `SAAS_ROADMAP.md`, `PROGRESS_REPORT.md`, and `FINAL_IMPLEMENTATION_REPORT.md`.
+Detailed action items live in `SAAS_ROADMAP.md`, `PROGRESS_REPORT.md`, `FINAL_IMPLEMENTATION_REPORT.md`.
 
 ---
 
-## Contribution Guidelines
+## 🤝 Contribution Guidelines
 
-1. Fork & branch from `main` (`feat/*`, `fix/*` naming).
-2. Keep frontend and backend changes in isolated commits when possible.
-3. Run `npm run lint` and relevant tests before pushing.
-4. Update documentation (README or `/docs/*.md`) when behavior changes.
-5. Open a PR with context, screenshots, and testing evidence.
+1. Fork & branch from `main` (`feat/*`, `fix/*`, `docs/*`).
+2. Keep backend/frontend changes scannable; add screenshots for UI tweaks.
+3. Run `npm run lint` (and tests when available) before pushing.
+4. Update docs/README when behavior changes.
+5. Open PR with context, verification steps, and risk notes.
 
-> For security-sensitive work, coordinate with maintainers before publishing the branch.
-
----
-
-## License
-
-No license file is committed yet. **Recommendation:** adopt the MIT License to keep the codebase compatible with commercial SaaS while allowing contributors to reuse patterns. Add a `LICENSE` file at the repo root before going public.
+> Security-sensitive work? Coordinate privately before opening the PR.
 
 ---
 
-## Additional Documentation
+## 📄 License
 
-- `ADMIN_SETUP_GUIDE.md` — how to provision orgs, admins, and environments.
-- `PRODUCTION_DEPLOYMENT_GUIDE.md` — Railway + Vercel deployment SOP with Stripe webhooks.
-- `SECURITY_IMPLEMENTATION.md` / `SECURITY_AUDIT.md` — controls, fixes, and compliance checklist.
-- `STRIPE_SETUP_GUIDE.md` — pricing, webhook, and CLI instructions.
+This repo currently ships **without a license**.  
+👉 Recommendation: add the MIT License to stay startup-friendly while keeping contributions open. (Create a `LICENSE` file before going public.)
+
+---
+
+## 📚 Documentation Suite
+
+See [`DOCUMENTATION.md`](DOCUMENTATION.md) for a curated index. Highlights include:
+
+- `ADMIN_SETUP_GUIDE.md` — provisioning orgs, admins, environments.
+- `PRODUCTION_DEPLOYMENT_GUIDE.md` — Railway/Vercel deploys + Stripe webhooks.
+- `SECURITY_IMPLEMENTATION.md` / `SECURITY_AUDIT.md` — control lists & findings.
+- `STRIPE_SETUP_GUIDE.md` — pricing, webhook, CLI scripts.
 - `USER_GUIDE.md` — onboarding for librarians/patrons.
-- `BETA_TEST_PLAN.md`, `FINAL_IMPLEMENTATION_REPORT.md`, `PROGRESS_REPORT.md` — delivery documentation for stakeholders.
+- `BETA_TEST_PLAN.md`, `PROGRESS_REPORT.md`, `FINAL_IMPLEMENTATION_REPORT.md` — alignment artifacts.
 
-Dive into these documents for deeper operational context when preparing a real production rollout.
+---
+
+Made with 💚 for librarians, readers, and SaaS teams everywhere.
