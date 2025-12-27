@@ -1,6 +1,6 @@
 <div align="center">
 
-# ✨ BiblioSmart — Premium Library SaaS
+# 📚 BiblioSmart — Premium Library SaaS
 
 **Empower every library with a beautiful reader experience, data-driven ops cockpit, and enterprise-ready guardrails.**
 
