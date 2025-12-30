@@ -15,6 +15,13 @@ import {
 import { useAuth } from "../context/AuthContext";
 import { useFormValidation, commonRules } from "../hooks/useFormValidation";
 
+interface RegisterFormValues extends Record<string, string> {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+
 export const Register = () => {
   const navigate = useNavigate();
   const { register: registerUser } = useAuth();
@@ -30,7 +37,7 @@ export const Register = () => {
     handleChange,
     handleBlur,
     validateAll,
-  } = useFormValidation(
+  } = useFormValidation<RegisterFormValues>(
     {
       name: "",
       email: "",
@@ -50,18 +57,18 @@ export const Register = () => {
         { required: true, message: "Password is required" },
         { minLength: commonRules.password.minLength, message: commonRules.password.message },
         {
-          custom: (value) => /[A-Z]/.test(value),
+          custom: (value: string): boolean => /[A-Z]/.test(value),
           message: "Password must contain at least one uppercase letter",
         },
         {
-          custom: (value) => /[0-9]/.test(value),
+          custom: (value: string): boolean => /[0-9]/.test(value),
           message: "Password must contain at least one number",
         },
       ],
       confirmPassword: [
         { required: true, message: "Please confirm your password" },
         {
-          custom: (value) => value === values.password,
+          custom: (value: string): boolean => value === values.password,
           message: "Passwords do not match",
         },
       ],
