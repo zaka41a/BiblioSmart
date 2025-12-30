@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+// useEffect removed - unused
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {

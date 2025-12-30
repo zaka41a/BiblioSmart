@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+// Motion animations removed to clean up unused imports
 import {
   FiBookOpen,
   FiUsers,

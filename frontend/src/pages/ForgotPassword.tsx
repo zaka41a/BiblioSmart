@@ -1,30 +1,55 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FiMail, FiArrowLeft, FiCheckCircle } from "react-icons/fi";
+import { FiMail, FiArrowLeft, FiCheckCircle, FiAlertCircle } from "react-icons/fi";
 import { Button } from "../components/ui/Button";
 import emailjs from "@emailjs/browser";
 import { api } from "../api/client";
+import { useFormValidation, commonRules } from "../hooks/useFormValidation";
 
 export const ForgotPassword = () => {
-  const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isDemoMode, setIsDemoMode] = useState(false);
-  const [error, setError] = useState("");
+  const [serverError, setServerError] = useState("");
   const [resetLink, setResetLink] = useState("");
   const [serverMessage, setServerMessage] = useState("");
 
+  const {
+    values,
+    errors,
+    touched,
+    handleChange,
+    handleBlur,
+    validateAll,
+  } = useFormValidation(
+    {
+      email: "",
+    },
+    {
+      email: [
+        { required: true, message: "Email is required" },
+        { pattern: commonRules.email.pattern, message: commonRules.email.message },
+      ],
+    }
+  );
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validate email
+    if (!validateAll()) {
+      return;
+    }
+
     setIsLoading(true);
-    setError("");
+    setServerError("");
     setIsDemoMode(false);
     setResetLink("");
     setServerMessage("");
 
     try {
-      const response = await api.post("/auth/forgot-password", { email });
+      const response = await api.post("/auth/forgot-password", { email: values.email });
       const { message, emailData } = response.data;
 
       if (message) {
@@ -46,9 +71,9 @@ export const ForgotPassword = () => {
       const fallbackResetUrl = `${window.location.origin}/reset-password?token=TOKEN`;
       const finalTemplateParams: Record<string, string> = {
         ...(template_params || {}),
-        to_email: template_params?.to_email || email,
-        to_name: template_params?.to_name || emailSettings.fromName || email,
-        user_email: template_params?.user_email || email,
+        to_email: template_params?.to_email || values.email,
+        to_name: template_params?.to_name || emailSettings.fromName || values.email,
+        user_email: template_params?.user_email || values.email,
         from_name: emailSettings.fromName || template_params?.from_name || "BiblioSmart",
         from_email: emailSettings.fromEmail || template_params?.from_email || "noreply@bibliosmart.com",
         reply_to: template_params?.reply_to || emailSettings.fromEmail || "support@bibliosmart.com",
@@ -100,11 +125,12 @@ export const ForgotPassword = () => {
         setIsSuccess(true);
         setIsDemoMode(true);
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error requesting password reset:", error);
+      const err = error as { response?: { data?: { message?: string } } };
       const message =
-        error?.response?.data?.message || "Failed to send reset email. Please try again or contact support.";
-      setError(message);
+        err?.response?.data?.message || "Failed to send reset email. Please try again or contact support.";
+      setServerError(message);
     } finally {
       setIsLoading(false);
     }
@@ -129,8 +155,8 @@ export const ForgotPassword = () => {
               {serverMessage
                 ? serverMessage
                 : isDemoMode
-                  ? <>We've generated a reset link for <strong>{email}</strong>.</>
-                  : <>We've sent a reset link to <strong>{email}</strong>.</>
+                  ? <>We've generated a reset link for <strong>{values.email}</strong>.</>
+                  : <>We've sent a reset link to <strong>{values.email}</strong>.</>
               }
             </p>
             {!isDemoMode && (
@@ -195,18 +221,20 @@ export const ForgotPassword = () => {
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
-            {error && (
+            {serverError && (
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="rounded-2xl bg-red-50 border-2 border-red-200 p-4 text-center"
+                className="flex items-start gap-3 rounded-2xl bg-red-50 border-2 border-red-200 p-4"
+                role="alert"
               >
-                <p className="text-sm font-semibold text-red-800">{error}</p>
+                <FiAlertCircle className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />
+                <p className="text-sm font-semibold text-red-800">{serverError}</p>
               </motion.div>
             )}
 
-            <div>
-              <label htmlFor="email" className="mb-2 block text-sm font-semibold text-slate-700">
+            <div className="space-y-2">
+              <label htmlFor="email" className="block text-sm font-semibold text-slate-700">
                 Email Address
               </label>
               <div className="relative">
@@ -216,13 +244,25 @@ export const ForgotPassword = () => {
                 <input
                   id="email"
                   type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={values.email}
+                  onChange={(e) => handleChange("email", e.target.value)}
+                  onBlur={() => handleBlur("email")}
                   placeholder="your.email@example.com"
-                  className="w-full rounded-xl border-2 border-slate-200 py-3 pl-12 pr-4 text-slate-700 transition-all focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-500/10"
+                  className={`w-full rounded-2xl border-2 py-3.5 pl-12 pr-4 text-slate-700 transition-all focus:outline-none focus:ring-4 placeholder:text-slate-400 ${
+                    touched.email && errors.email
+                      ? "border-red-500 focus:border-red-500 focus:ring-red-500/10"
+                      : "border-slate-200 focus:border-emerald-500 focus:ring-emerald-500/10"
+                  }`}
+                  aria-invalid={touched.email && errors.email ? "true" : "false"}
+                  aria-describedby={errors.email ? "email-error" : undefined}
                 />
               </div>
+              {touched.email && errors.email && (
+                <p id="email-error" className="flex items-center gap-1.5 text-sm text-red-600">
+                  <FiAlertCircle className="h-4 w-4" />
+                  {errors.email}
+                </p>
+              )}
             </div>
 
             <Button

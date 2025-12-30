@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   FiHome,
   FiBookOpen,
@@ -11,7 +12,9 @@ import {
   FiMail,
   FiFileText,
   FiShield,
-  FiTrendingUp
+  FiTrendingUp,
+  FiMenu,
+  FiX
 } from "react-icons/fi";
 import logo from "../assets/logo.png";
 import { useAuth } from "../context/AuthContext";
@@ -39,6 +42,7 @@ const navItems: NavItem[] = [
 
 export const Header = () => {
   const { user, isAuthenticated, logout } = useAuth();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Determine logo link based on user role
   const logoLink = !isAuthenticated
@@ -199,14 +203,108 @@ export const Header = () => {
             </>
           )}
 
-          {/* Mobile Menu Button (optional) */}
-          <button className="rounded-full bg-slate-800/80 border border-slate-700 p-2.5 text-slate-300 transition-all hover:bg-slate-700 hover:text-emerald-400 md:hidden">
-            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="rounded-full bg-slate-800/80 border border-slate-700 p-2.5 text-slate-300 transition-all hover:bg-slate-700 hover:text-emerald-400 md:hidden"
+            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileMenuOpen}
+          >
+            {mobileMenuOpen ? (
+              <FiX className="h-6 w-6" />
+            ) : (
+              <FiMenu className="h-6 w-6" />
+            )}
           </button>
         </div>
       </div>
+
+      {/* Mobile Navigation */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.2 }}
+            className="border-t border-slate-800 md:hidden overflow-hidden"
+          >
+            <nav className="flex flex-col gap-2 p-4 bg-slate-950">
+              {visibleNavItems.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <NavLink
+                    key={item.path}
+                    to={item.path}
+                    end={item.path === "/"}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-semibold transition-all ${
+                        isActive
+                          ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
+                          : "text-slate-300 hover:bg-slate-800 hover:text-emerald-400"
+                      }`
+                    }
+                  >
+                    <Icon className="h-5 w-5" />
+                    <span>{item.label}</span>
+                  </NavLink>
+                );
+              })}
+
+              {/* Mobile User Actions */}
+              {isAuthenticated ? (
+                <>
+                  {/* User Info in Mobile */}
+                  <div className="mt-2 flex items-center gap-3 rounded-lg bg-slate-800/80 border border-slate-700 px-4 py-3">
+                    <FiUser className="h-5 w-5 text-emerald-400" />
+                    <div className="flex-1">
+                      <p className="text-sm font-semibold text-slate-200">{user?.name}</p>
+                      {user?.role === "admin" && (
+                        <span className="text-xs font-bold text-emerald-400">Admin</span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Logout in Mobile */}
+                  <button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      logout();
+                    }}
+                    className="flex items-center gap-3 rounded-lg bg-red-500/10 border border-red-500/30 px-4 py-3 text-sm font-semibold text-red-400 transition-all hover:bg-red-500/20"
+                  >
+                    <FiLogOut className="h-5 w-5" />
+                    <span>Logout</span>
+                  </button>
+                </>
+              ) : (
+                <>
+                  {/* Login in Mobile */}
+                  <Link
+                    to="/login"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center gap-3 rounded-lg bg-slate-800/80 border border-slate-700 px-4 py-3 text-sm font-semibold text-slate-300 transition-all hover:bg-slate-700 hover:text-emerald-400"
+                  >
+                    <FiLogIn className="h-5 w-5" />
+                    <span>Login</span>
+                  </Link>
+
+                  {/* Explore in Mobile */}
+                  <Link
+                    to="/catalogue"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center gap-3 rounded-lg bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 px-4 py-3 text-sm font-bold text-white shadow-lg transition-all hover:shadow-xl"
+                  >
+                    <FiZap className="h-5 w-5" />
+                    <span>Explore</span>
+                  </Link>
+                </>
+              )}
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.header>
   );
 };

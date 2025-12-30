@@ -9,7 +9,8 @@ export interface User {
   name: string;
   email: string;
   role: UserRole;
-  token?: string;
+  // Note: Token is NOT stored here for security reasons
+  // It should be in httpOnly cookies managed by the backend
 }
 
 interface AuthContextType {
@@ -64,17 +65,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       if (data.success && data.data) {
         // Backend returns: { success: true, data: { user, token } }
-        const { user: userData, token } = data.data;
+        // Token is handled by httpOnly cookies - we don't store it in localStorage
+        const { user: userData } = data.data;
 
         const loggedInUser: User = {
           id: userData.id,
           name: userData.name,
           email: userData.email,
           role: userData.role.toLowerCase() as UserRole,
-          token: token
         };
 
         setUser(loggedInUser);
+        // Only store non-sensitive user info (no token!)
         localStorage.setItem("bibliosmart_user", JSON.stringify(loggedInUser));
 
         // Navigate based on role

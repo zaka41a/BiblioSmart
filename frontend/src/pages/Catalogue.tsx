@@ -12,14 +12,13 @@ import {
   FiDollarSign,
   FiUser,
   FiCalendar,
-  FiTrendingUp,
-  FiZap,
-  FiHeart
+  FiTrendingUp
 } from "react-icons/fi";
 import { useDebouncedValue } from "../hooks/useDebouncedValue";
 import { useBooks } from "../context/BookContext";
 import { usePurchases } from "../context/PurchaseContext";
 import { useAuth } from "../context/AuthContext";
+import { BookCover } from "../components/ui/BookCover";
 
 const genres = [
   { name: "Fiction", color: "from-violet-500 via-purple-500 to-fuchsia-500", bgColor: "bg-violet-50", iconColor: "text-violet-600" },
@@ -227,52 +226,14 @@ export const Catalogue = () => {
               className="group relative cursor-pointer overflow-hidden rounded-xl bg-white shadow-lg hover:shadow-xl border border-slate-200 transition-all"
             >
               {/* Book Cover Section */}
-              <div className="relative h-72 overflow-hidden bg-gradient-to-br from-slate-50 to-slate-100">
-                {/* Cover Image */}
-                {book.coverUrl ? (
-                  <img
-                    src={book.coverUrl}
-                    alt={book.title}
-                    className="h-full w-full object-cover transition-transform group-hover:scale-105"
-                    loading="lazy"
-                    onError={(e) => {
-                        const target = e.currentTarget;
-                        target.style.display = 'none';
-                        const parent = target.parentElement;
-                        if (parent) {
-                          const gradient = document.createElement('div');
-                          gradient.className = `absolute inset-0 bg-gradient-to-br ${genreInfo.color} opacity-20`;
-                          parent.appendChild(gradient);
-                          const icon = document.createElement('div');
-                          icon.className = 'absolute inset-0 flex items-center justify-center z-10';
-                          icon.innerHTML = '<svg class="h-24 w-24 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>';
-                          parent.appendChild(icon);
-                        }
-                    }}
-                  />
-                ) : (
-                  <>
-                    <div className="absolute inset-0 bg-slate-100" />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <FiBookOpen className="h-20 w-20 text-slate-300" />
-                    </div>
-                  </>
-                )}
-
-                {/* Availability Badge */}
-                <div className="absolute right-3 top-3 z-20">
-                  {book.available ? (
-                    <span className="flex items-center gap-1.5 rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white shadow-md">
-                      <FiCheckCircle className="h-3.5 w-3.5" />
-                      Available
-                    </span>
-                  ) : (
-                    <span className="rounded-lg bg-slate-600 px-3 py-1.5 text-xs font-semibold text-white shadow-md">
-                      Borrowed
-                    </span>
-                  )}
-                </div>
-              </div>
+              <BookCover
+                coverUrl={book.coverUrl}
+                title={book.title}
+                gradientClass={genreInfo.color}
+                height="h-72"
+                showAvailability={true}
+                isAvailable={book.available}
+              />
 
               {/* Book Info Section */}
               <div className="space-y-3 p-5">

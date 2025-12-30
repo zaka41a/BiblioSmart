@@ -1,22 +1,18 @@
 import { Link } from "react-router-dom";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
-import { motion } from "framer-motion";
 import {
   FiBookOpen,
   FiSearch,
   FiZap,
   FiShield,
   FiBell,
-  FiUsers,
-  FiStar,
   FiTarget,
-  FiHeart,
   FiAward,
   FiGlobe,
-  FiTrendingUp,
   FiDatabase,
   FiClock,
-  FiCheckCircle
+  FiCheckCircle,
+  FiHeart
 } from "react-icons/fi";
 import {
   BsRocket,
@@ -115,18 +111,10 @@ const benefits = [
 
 export const Home = () => {
   const { books } = useBooks();
-  const users = JSON.parse(localStorage.getItem("bibliosmart_registered_users") || "[]");
 
   // Calculate real stats
-  const totalBooks = books.length;
-  const activeLoans = books.filter((b: any) => !b.available).length;
-  const activeUsers = users.length;
-
-  const stats = [
-    { label: "Available Titles", value: totalBooks.toLocaleString(), icon: FiBookOpen, color: "text-brand-primary" },
-    { label: "Active Loans", value: activeLoans.toLocaleString(), icon: BsRocket, color: "text-brand-accent" },
-    { label: "Active Readers", value: activeUsers.toLocaleString(), icon: FiUsers, color: "text-brand-success" }
-  ];
+  const _totalBooks = books.length;
+  const _activeLoans = books.filter(b => !b.available).length;
 
   return (
     <div className="space-y-32">
@@ -338,7 +326,9 @@ export const Home = () => {
           {/* Left - Logo */}
           <div className="relative flex items-center justify-center">
             <div className="rounded-xl bg-white/10 p-12 backdrop-blur-sm border border-white/20">
-              <img src={logo} alt="BiblioSmart Logo" loading="lazy" className="h-48 w-48 lg:h-56 lg:w-56" />
+              <object data={logo} type="image/png" aria-label="BiblioSmart Logo" className="h-48 w-48 lg:h-56 lg:w-56">
+                <img src={logo} alt="BiblioSmart Logo" loading="lazy" className="h-48 w-48 lg:h-56 lg:w-56" />
+              </object>
             </div>
           </div>
 

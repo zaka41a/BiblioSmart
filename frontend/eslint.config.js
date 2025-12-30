@@ -12,11 +12,15 @@ export default [
       parser: tsParser,
       parserOptions: {
         ecmaVersion: "latest",
-        sourceType: "module"
+        sourceType: "module",
+        ecmaFeatures: {
+          jsx: true
+        }
       },
       globals: {
         ...globals.browser,
-        ...globals.node
+        ...globals.node,
+        React: "readonly"
       }
     },
     plugins: {
@@ -24,7 +28,22 @@ export default [
       "react-hooks": reactHooks
     },
     rules: {
-      "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+      // Désactiver les règles de base qui entrent en conflit avec TypeScript
+      "no-unused-vars": "off",
+      "no-undef": "off",
+
+      // Règles TypeScript
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          caughtErrorsIgnorePattern: "^_"
+        }
+      ],
+      "@typescript-eslint/no-explicit-any": "warn",
+
+      // Règles React Hooks
       "react-hooks/rules-of-hooks": "error",
       "react-hooks/exhaustive-deps": "warn"
     }

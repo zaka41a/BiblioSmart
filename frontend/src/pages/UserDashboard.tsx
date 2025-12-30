@@ -1,5 +1,4 @@
 import { Link, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
 import {
   FiBookOpen,
   FiCheckCircle,
@@ -14,6 +13,7 @@ import { usePurchases } from "../context/PurchaseContext";
 import { useBooks } from "../context/BookContext";
 import { useToast } from "../hooks/useToast";
 import { ToastContainer } from "../components/ui/Toast";
+import { BookCover } from "../components/ui/BookCover";
 
 const getStats = (accessibleCount: number, purchasedCount: number, freeCount: number) => [
   {
@@ -121,7 +121,7 @@ export const UserDashboard = () => {
     });
   };
 
-  const stats = getStats(accessibleBooks.length, purchasedCount, freeCount);
+  const _stats = getStats(accessibleBooks.length, purchasedCount, freeCount);
 
   return (
     <div className="space-y-8">
@@ -180,37 +180,11 @@ export const UserDashboard = () => {
                   className="group overflow-hidden rounded-xl bg-white shadow-lg transition-all hover:shadow-xl"
                 >
                       {/* Book Cover Image */}
-                      <div className="relative h-48 overflow-hidden bg-gradient-to-br from-slate-100 to-slate-50">
-                        {book.coverUrl ? (
-                          <img
-                            src={book.coverUrl}
-                            alt={book.title}
-                            className="h-full w-full object-cover transition-transform group-hover:scale-110"
-                            loading="lazy"
-                            onError={(e) => {
-                              const target = e.currentTarget;
-                              target.style.display = 'none';
-                              const parent = target.parentElement;
-                              if (parent) {
-                                const gradient = document.createElement('div');
-                                gradient.className = 'absolute inset-0 bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 opacity-30';
-                                parent.appendChild(gradient);
-                                const icon = document.createElement('div');
-                                icon.className = 'absolute inset-0 flex items-center justify-center';
-                                icon.innerHTML = '<svg class="h-16 w-16 text-white/40" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>';
-                                parent.appendChild(icon);
-                              }
-                            }}
-                          />
-                        ) : (
-                          <>
-                            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 opacity-30" />
-                            <div className="absolute inset-0 flex items-center justify-center">
-                              <FiBookOpen className="h-16 w-16 text-white/40" />
-                            </div>
-                          </>
-                        )}
-                      </div>
+                      <BookCover
+                        coverUrl={book.coverUrl}
+                        title={book.title}
+                        height="h-48"
+                      />
 
                       <div className="space-y-4 p-6">
                         {/* Status Badge */}
@@ -307,44 +281,19 @@ export const UserDashboard = () => {
                     className="group relative overflow-hidden rounded-xl bg-white shadow-lg transition-all hover:shadow-xl cursor-pointer border border-white"
                     onClick={() => navigate(`/livres/${book.id}`)}
                   >
+                        {/* Book Cover avec Badge Recommended */}
+                        <div className="relative">
+                          <BookCover
+                            coverUrl={book.coverUrl}
+                            title={book.title}
+                            height="h-56"
+                          />
 
-                        {/* Book Cover */}
-                        <div className="relative h-56 overflow-hidden bg-gradient-to-br from-slate-100 to-slate-50">
                           {/* Recommended Badge */}
-                          <div className="absolute left-3 top-3 z-10 flex items-center gap-1.5 rounded-full bg-gradient-to-r from-amber-400 to-orange-400 px-3 py-1.5 shadow-soft-lg">
+                          <div className="absolute left-3 top-3 z-10 flex items-center gap-1.5 rounded-full bg-gradient-to-r from-amber-400 to-orange-400 px-3 py-1.5 shadow-lg">
                             <FiStar className="h-3.5 w-3.5 text-white" />
                             <span className="text-xs font-black text-white">RECOMMENDED</span>
                           </div>
-
-                          {book.coverUrl ? (
-                            <img
-                              src={book.coverUrl}
-                              alt={book.title}
-                              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                              loading="lazy"
-                              onError={(e) => {
-                                const target = e.currentTarget;
-                                target.style.display = 'none';
-                                const parent = target.parentElement;
-                                if (parent) {
-                                  const gradient = document.createElement('div');
-                                  gradient.className = 'absolute inset-0 bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 opacity-30';
-                                  parent.appendChild(gradient);
-                                  const icon = document.createElement('div');
-                                  icon.className = 'absolute inset-0 flex items-center justify-center';
-                                  icon.innerHTML = '<svg class="h-16 w-16 text-white/40" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>';
-                                  parent.appendChild(icon);
-                                }
-                              }}
-                            />
-                          ) : (
-                            <>
-                              <div className="absolute inset-0 bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 opacity-30" />
-                              <div className="absolute inset-0 flex items-center justify-center">
-                                <FiBookOpen className="h-16 w-16 text-white/40" />
-                              </div>
-                            </>
-                          )}
 
                           {/* Overlay Gradient */}
                           <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
