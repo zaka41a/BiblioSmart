@@ -1,4 +1,8 @@
 <div align="center">
+  <img src="https://raw.githubusercontent.com/zaka41a/BiblioSmart/main/frontend/src/assets/logo.png" alt="BiblioSmart Logo" width="200" />
+</div>
+
+<div align="center">
 
 # 📚 BiblioSmart — Premium Library SaaS
 
