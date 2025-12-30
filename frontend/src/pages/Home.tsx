@@ -22,6 +22,7 @@ import {
   BsBarChart
 } from "react-icons/bs";
 import logo from "../assets/logo.png";
+import bookPic from "../assets/book-pic.png";
 import { useBooks } from "../context/BookContext";
 
 const highlights = [
@@ -171,13 +172,10 @@ export const Home = () => {
           <div className="relative">
             <div className="relative overflow-hidden rounded-xl shadow-xl">
               <img
-                src="/book-pic.png"
+                src={bookPic}
                 alt="BiblioSmart - Modern Library Management"
                 className="w-full h-auto object-cover"
                 loading="lazy"
-                onError={(e) => {
-                  e.currentTarget.src = "/book-pic.jpg";
-                }}
               />
             </div>
           </div>
