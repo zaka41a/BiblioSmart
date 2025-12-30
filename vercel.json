@@ -1,9 +1,5 @@
 {
   "buildCommand": "npm run build:frontend",
   "installCommand": "npm install",
-  "outputDirectory": "frontend/dist",
-  "routes": [
-    { "handle": "filesystem" },
-    { "src": "/.*", "dest": "/index.html" }
-  ]
+  "outputDirectory": "frontend/dist"
 }
