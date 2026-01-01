@@ -1,641 +1,641 @@
-# 📚 BiblioSmart - Guide Utilisateur
+# 📚 BiblioSmart - User Guide
 
 **Version**: Beta 1.0
-**Public**: Bibliothécaires et administrateurs
-**Durée de lecture**: 15 minutes
+**Audience**: Librarians and administrators
+**Reading time**: 15 minutes
 
 ---
 
-## 🎯 Bienvenue sur BiblioSmart!
+## 🎯 Welcome to BiblioSmart!
 
-BiblioSmart est votre assistant numérique pour gérer votre bibliothèque moderne:
-- 📖 Catalogue en ligne accessible 24/7
-- 🔍 Recherche rapide et intelligente
-- 📊 Statistiques en temps réel
-- 👥 Gestion simple des lecteurs
-- 📱 Accessible sur mobile et ordinateur
+BiblioSmart is your digital assistant for managing your modern library:
+- 📖 Online catalog accessible 24/7
+- 🔍 Fast and smart search
+- 📊 Real-time statistics
+- 👥 Simple reader management
+- 📱 Accessible on mobile and desktop
 
 ---
 
-## 🚀 Démarrage Rapide (5 minutes)
+## 🚀 Quick Start (5 minutes)
 
-### 1️⃣ Première Connexion
+### 1️⃣ First Login
 
 **URL**: https://bibliosmart.app
 
-1. Cliquer sur **"Connexion"**
-2. Entrer votre email et mot de passe temporaire
-3. Vous serez invité à changer votre mot de passe
-4. Choisir un mot de passe sécurisé (min. 8 caractères)
+1. Click on **"Login"**
+2. Enter your email and temporary password
+3. You will be prompted to change your password
+4. Choose a secure password (min. 8 characters)
 
-✅ **Vous êtes connecté!**
+✅ **You're logged in!**
 
-### 2️⃣ Découvrir l'Interface
+### 2️⃣ Discover the Interface
 
-**En tant qu'Administrateur**, vous verrez:
+**As an Administrator**, you will see:
 
 ```
 ┌─────────────────────────────────────────────┐
-│  BiblioSmart          🔍 Rechercher    👤   │
+│  BiblioSmart          🔍 Search        👤   │
 ├─────────────────────────────────────────────┤
 │                                             │
-│  📊 Tableau de Bord                         │
-│  ├─ Livres dans la bibliothèque: 456       │
-│  ├─ Lecteurs actifs: 124                   │
-│  ├─ Emprunts en cours: 89                  │
-│  └─ Nouveaux cette semaine: 12             │
+│  📊 Dashboard                               │
+│  ├─ Books in library: 456                  │
+│  ├─ Active readers: 124                    │
+│  ├─ Current loans: 89                      │
+│  └─ New this week: 12                      │
 │                                             │
-│  🔥 Actions Rapides                        │
-│  [+ Ajouter un livre]  [📋 Voir emprunts]  │
+│  🔥 Quick Actions                           │
+│  [+ Add a book]  [📋 View loans]           │
 │                                             │
 └─────────────────────────────────────────────┘
 
-Menu latéral:
-📊 Tableau de bord
-📚 Gestion des livres
-👥 Gestion des utilisateurs
+Side menu:
+📊 Dashboard
+📚 Book Management
+👥 User Management
 📈 Analytics
-⚙️  Paramètres
+⚙️  Settings
 ```
 
-### 3️⃣ Votre Première Action: Ajouter un Livre
+### 3️⃣ Your First Action: Add a Book
 
-1. Cliquer sur **"Gestion des livres"** dans le menu
-2. Cliquer sur **"+ Ajouter un livre"**
-3. Remplir les informations:
+1. Click on **"Book Management"** in the menu
+2. Click on **"+ Add a book"**
+3. Fill in the information:
    ```
-   Titre*:        Clean Code
-   Auteur*:       Robert C. Martin
+   Title*:        Clean Code
+   Author*:       Robert C. Martin
    ISBN:          978-0132350884
-   Catégorie*:    Programmation
-   Année:         2008
-   Prix:          29.99 (optionnel)
-   Description:   Un guide pour...
-   URL Couverture: https://... (optionnel)
+   Category*:     Programming
+   Year:          2008
+   Price:         29.99 (optional)
+   Description:   A guide to...
+   Cover URL:     https://... (optional)
    ```
-4. Cliquer sur **"Enregistrer"**
+4. Click on **"Save"**
 
-🎉 **Votre premier livre est ajouté!**
+🎉 **Your first book is added!**
 
 ---
 
-## 📖 Gestion des Livres
+## 📖 Book Management
 
-### Ajouter des Livres
+### Adding Books
 
-**Méthode 1: Un par un** (pour débuter)
-- Bouton "+ Ajouter un livre"
-- Remplir le formulaire
-- Enregistrer
+**Method 1: One by one** (for getting started)
+- Button "+ Add a book"
+- Fill in the form
+- Save
 
-**Méthode 2: Import en masse** (recommandé)
-- Préparer un fichier CSV avec vos livres
-- Format du CSV:
+**Method 2: Bulk import** (recommended)
+- Prepare a CSV file with your books
+- CSV format:
   ```csv
   title,author,isbn,category,year,price,description,coverUrl
-  "1984","George Orwell","9780451524935","Fiction",1949,15.99,"Dystopie...","https://..."
-  "Le Petit Prince","Antoine de Saint-Exupéry","9782070408504","Jeunesse",1943,12.99,"Conte...","https://..."
+  "1984","George Orwell","9780451524935","Fiction",1949,15.99,"Dystopia...","https://..."
+  "The Little Prince","Antoine de Saint-Exupéry","9782070408504","Youth",1943,12.99,"Tale...","https://..."
   ```
-- Aller dans **Paramètres > Import**
-- Uploader votre CSV
-- Vérifier et confirmer
+- Go to **Settings > Import**
+- Upload your CSV
+- Review and confirm
 
-### Modifier un Livre
+### Editing a Book
 
-1. Aller dans **"Gestion des livres"**
-2. Chercher le livre à modifier
-3. Cliquer sur **✏️ Modifier**
-4. Changer les informations
-5. **Enregistrer**
+1. Go to **"Book Management"**
+2. Search for the book to edit
+3. Click on **✏️ Edit**
+4. Change the information
+5. **Save**
 
-### Supprimer un Livre
+### Deleting a Book
 
-1. Trouver le livre
-2. Cliquer sur **🗑️ Supprimer**
-3. Confirmer l'action
+1. Find the book
+2. Click on **🗑️ Delete**
+3. Confirm the action
 
-⚠️ **Attention**: Impossible de supprimer un livre actuellement emprunté!
+⚠️ **Warning**: Cannot delete a book currently on loan!
 
-### Gérer la Disponibilité
+### Managing Availability
 
-**Marquer un livre comme indisponible**:
-- Utile si le livre est perdu, abîmé, en réparation
-- Dans la fiche du livre: **Toggle "Disponible"**
+**Mark a book as unavailable**:
+- Useful if the book is lost, damaged, or being repaired
+- In the book details: **Toggle "Available"**
 
-**Rendre à nouveau disponible**:
-- Même processus, réactiver "Disponible"
+**Make available again**:
+- Same process, reactivate "Available"
 
 ---
 
-## 👥 Gestion des Utilisateurs
+## 👥 User Management
 
-### Types d'Utilisateurs
+### User Types
 
-**Administrateur** (vous):
-- Gère les livres
-- Gère les lecteurs
-- Voit les statistiques
-- Configure la bibliothèque
+**Administrator** (you):
+- Manages books
+- Manages readers
+- Views statistics
+- Configures the library
 
-**Lecteur**:
-- Parcourt le catalogue
-- Emprunte des livres (si configuré)
-- Voit son historique
-- Reçoit des notifications
+**Reader**:
+- Browses the catalog
+- Borrows books (if configured)
+- Views their history
+- Receives notifications
 
-### Inviter un Collègue Administrateur
+### Invite a Colleague Administrator
 
-1. Aller dans **"Gestion des utilisateurs"**
-2. Cliquer sur **"+ Inviter un utilisateur"**
-3. Remplir:
+1. Go to **"User Management"**
+2. Click on **"+ Invite a user"**
+3. Fill in:
    ```
-   Email:     collegue@bibliotheque.fr
-   Nom:       Marie Dupont
-   Rôle:      Administrateur
+   Email:     colleague@library.com
+   Name:      Mary Smith
+   Role:      Administrator
    ```
-4. Envoyer l'invitation
+4. Send the invitation
 
-Votre collègue recevra un email avec ses accès!
+Your colleague will receive an email with their access!
 
-### Ajouter un Lecteur
+### Add a Reader
 
-**Option 1: Inscription libre**
-- Les lecteurs peuvent s'inscrire eux-mêmes via le site
-- Vous validez leur compte (si configuré)
+**Option 1: Free registration**
+- Readers can register themselves via the website
+- You validate their account (if configured)
 
-**Option 2: Invitation manuelle**
-- Même processus que ci-dessus
-- Choisir le rôle "Lecteur"
+**Option 2: Manual invitation**
+- Same process as above
+- Choose the role "Reader"
 
-### Voir les Lecteurs Actifs
+### View Active Readers
 
-1. **Gestion des utilisateurs**
-2. Filtrer par:
-   - Rôle (Lecteur/Admin)
-   - Status (Actif/Inactif)
-   - Dernière connexion
+1. **User Management**
+2. Filter by:
+   - Role (Reader/Admin)
+   - Status (Active/Inactive)
+   - Last login
 
-### Suspendre un Lecteur
+### Suspend a Reader
 
-En cas de retard répété ou abus:
-1. Trouver l'utilisateur
-2. Cliquer sur **"Actions"** → **"Suspendre"**
-3. Le lecteur ne peut plus emprunter (mais peut consulter)
-
----
-
-## 📊 Tableau de Bord & Statistiques
-
-### Vue d'Ensemble
-
-Votre tableau de bord affiche:
-
-**Métriques Principales**:
-- 📚 **Total de livres**: Nombre de livres dans votre catalogue
-- 👥 **Lecteurs actifs**: Lecteurs qui se sont connectés ce mois
-- 📖 **Emprunts en cours**: Livres actuellement empruntés
-- 🔄 **Retours attendus**: Livres à retourner cette semaine
-
-**Graphiques**:
-- 📈 Évolution des emprunts (30 derniers jours)
-- 📊 Top 10 des catégories les plus empruntées
-- 👑 Top 5 des livres les plus populaires
-
-### Analytics Avancés
-
-Pour aller plus loin (Menu **Analytics**):
-
-**Catégories**:
-- Quelle catégorie est la plus empruntée?
-- Quelle catégorie a le plus de livres?
-- Tendances par mois
-
-**Lecteurs**:
-- Lecteurs les plus actifs
-- Nouveaux lecteurs par mois
-- Taux de rétention
-
-**Livres**:
-- Livres jamais empruntés (à promouvoir!)
-- Livres les plus populaires (à commander en double?)
-- Durée moyenne d'emprunt
-
-💡 **Astuce**: Exportez les données en CSV pour analyse externe (Excel)
+In case of repeated delays or abuse:
+1. Find the user
+2. Click on **"Actions"** → **"Suspend"**
+3. The reader can no longer borrow (but can browse)
 
 ---
 
-## 🔍 Recherche & Catalogue
+## 📊 Dashboard & Statistics
 
-### Recherche Simple
+### Overview
 
-La barre de recherche en haut:
+Your dashboard displays:
+
+**Main Metrics**:
+- 📚 **Total books**: Number of books in your catalog
+- 👥 **Active readers**: Readers who logged in this month
+- 📖 **Current loans**: Books currently on loan
+- 🔄 **Expected returns**: Books to be returned this week
+
+**Charts**:
+- 📈 Loan trends (last 30 days)
+- 📊 Top 10 most borrowed categories
+- 👑 Top 5 most popular books
+
+### Advanced Analytics
+
+To go further (Menu **Analytics**):
+
+**Categories**:
+- Which category is most borrowed?
+- Which category has the most books?
+- Trends by month
+
+**Readers**:
+- Most active readers
+- New readers per month
+- Retention rate
+
+**Books**:
+- Books never borrowed (to promote!)
+- Most popular books (order duplicates?)
+- Average loan duration
+
+💡 **Tip**: Export data as CSV for external analysis (Excel)
+
+---
+
+## 🔍 Search & Catalog
+
+### Simple Search
+
+The search bar at the top:
 ```
-🔍 Rechercher un livre, auteur, ISBN...
+🔍 Search for a book, author, ISBN...
 ```
 
-**Exemples**:
-- "Orwell" → Trouve tous les livres de George Orwell
-- "1984" → Trouve le livre "1984" et autres avec 1984 dans le titre
-- "978-0451524935" → Recherche par ISBN
+**Examples**:
+- "Orwell" → Finds all books by George Orwell
+- "1984" → Finds the book "1984" and others with 1984 in the title
+- "978-0451524935" → Search by ISBN
 
-### Filtres Avancés
+### Advanced Filters
 
-Sur la page **Catalogue**:
+On the **Catalog** page:
 
-**Filtrer par**:
-- 📂 Catégorie (Fiction, Science, Jeunesse...)
-- 🗓️ Année de publication
-- 💰 Prix (Gratuit / Payant)
-- ✅ Disponibilité (Disponible / Emprunté)
+**Filter by**:
+- 📂 Category (Fiction, Science, Youth...)
+- 🗓️ Publication year
+- 💰 Price (Free / Paid)
+- ✅ Availability (Available / On loan)
 
-**Trier par**:
-- Date d'ajout (Plus récents)
-- Titre (A-Z)
-- Auteur (A-Z)
-- Popularité (Plus empruntés)
+**Sort by**:
+- Date added (Most recent)
+- Title (A-Z)
+- Author (A-Z)
+- Popularity (Most borrowed)
 
-### Vue Détaillée d'un Livre
+### Detailed Book View
 
-Cliquer sur un livre pour voir:
-- 🖼️ Couverture
-- 📖 Titre, Auteur, ISBN
-- 📝 Description complète
-- ⭐ Nombre d'emprunts
-- 👥 Lecteurs qui ont emprunté
-- 📅 Historique des emprunts
+Click on a book to see:
+- 🖼️ Cover
+- 📖 Title, Author, ISBN
+- 📝 Full description
+- ⭐ Number of loans
+- 👥 Readers who borrowed it
+- 📅 Loan history
 
 ---
 
-## ⚙️ Paramètres de la Bibliothèque
+## ⚙️ Library Settings
 
-### Informations Générales
+### General Information
 
-**Paramètres > Organisation**:
-- Nom de votre bibliothèque
-- Adresse
-- Email de contact
-- Téléphone
+**Settings > Organization**:
+- Your library name
+- Address
+- Contact email
+- Phone
 
-### Gestion de l'Abonnement
+### Subscription Management
 
-**Paramètres > Abonnement**:
+**Settings > Subscription**:
 
-Voir:
-- Plan actuel (Trial / Basic / Pro)
-- Date de fin de période
-- Utilisation (livres/limite, utilisateurs/limite)
+View:
+- Current plan (Trial / Basic / Pro)
+- Period end date
+- Usage (books/limit, users/limit)
 
 Actions:
-- Mettre à jour le plan
-- Gérer le paiement (Stripe)
-- Voir l'historique de facturation
+- Update plan
+- Manage payment (Stripe)
+- View billing history
 
 ### Notifications
 
-**Paramètres > Notifications**:
+**Settings > Notifications**:
 
-Configurer:
-- Email de retour imminent (3 jours avant)
-- Email de retard
-- Email de nouveau livre
-- Fréquence des newsletters
+Configure:
+- Reminder email for upcoming returns (3 days before)
+- Overdue email
+- New book email
+- Newsletter frequency
 
-### Intégrations
+### Integrations
 
-**Paramètres > Intégrations**:
+**Settings > Integrations**:
 
-Connecter:
-- EmailJS (pour notifications email)
-- Google Analytics (pour tracking)
-- API externe (si nécessaire)
+Connect:
+- EmailJS (for email notifications)
+- Google Analytics (for tracking)
+- External API (if needed)
 
 ---
 
-## 💡 Cas d'Usage Fréquents
+## 💡 Common Use Cases
 
-### Scénario 1: Un Lecteur Veut Emprunter
+### Scenario 1: A Reader Wants to Borrow
 
-**Si système d'emprunt physique**:
-1. Le lecteur vous demande le livre
-2. Vous cherchez le livre dans BiblioSmart
-3. Vous marquez le livre comme "Emprunté" (toggle Disponible)
-4. Le lecteur repart avec le livre physique
-5. BiblioSmart envoie un rappel automatique avant la date de retour
+**If physical loan system**:
+1. The reader asks you for the book
+2. You search for the book in BiblioSmart
+3. You mark the book as "On loan" (toggle Available)
+4. The reader leaves with the physical book
+5. BiblioSmart sends an automatic reminder before the return date
 
-**Si système numérique** (PDF):
-1. Le lecteur achète l'accès (si payant)
-2. BiblioSmart débloque le PDF
-3. Le lecteur peut lire en ligne ou télécharger
+**If digital system** (PDF):
+1. The reader purchases access (if paid)
+2. BiblioSmart unlocks the PDF
+3. The reader can read online or download
 
-### Scénario 2: Retour d'un Livre
+### Scenario 2: Book Return
 
-1. Le lecteur vous rend le livre physique
-2. Vous cherchez le livre dans BiblioSmart
-3. Vous marquez comme "Disponible"
-4. Le lecteur peut voir le livre dans son historique
+1. The reader returns the physical book to you
+2. You search for the book in BiblioSmart
+3. You mark it as "Available"
+4. The reader can see the book in their history
 
-### Scénario 3: Import Initial du Catalogue
+### Scenario 3: Initial Catalog Import
 
-**Vous avez 500+ livres à importer**:
+**You have 500+ books to import**:
 
-1. **Créer le CSV**:
-   - Ouvrir Excel/Google Sheets
-   - Colonnes: title, author, isbn, category, year
-   - Remplir ligne par ligne
+1. **Create the CSV**:
+   - Open Excel/Google Sheets
+   - Columns: title, author, isbn, category, year
+   - Fill in line by line
 
-2. **Sauvegarder en CSV**:
-   - Fichier > Enregistrer sous
+2. **Save as CSV**:
+   - File > Save as
    - Format: CSV (UTF-8)
 
-3. **Importer dans BiblioSmart**:
-   - Paramètres > Import
-   - Choisir le fichier
-   - Mapper les colonnes (si différentes)
-   - Vérifier les données
-   - Importer
+3. **Import into BiblioSmart**:
+   - Settings > Import
+   - Choose the file
+   - Map columns (if different)
+   - Review data
+   - Import
 
-4. **Vérification**:
-   - Voir les livres dans le catalogue
-   - Corriger les erreurs éventuelles
+4. **Verification**:
+   - View books in the catalog
+   - Correct any errors
 
-### Scénario 4: Fin de Mois - Analyse
+### Scenario 4: End of Month - Analysis
 
-**Chaque fin de mois**:
+**Each end of month**:
 
-1. Aller dans **Analytics**
-2. Sélectionner période: "Ce mois"
-3. Noter:
-   - Nombre d'emprunts
-   - Nouveaux lecteurs
-   - Catégories populaires
-4. Exporter le rapport (PDF/CSV)
-5. Identifier les tendances:
-   - Besoin de nouveaux livres dans une catégorie?
-   - Campagne pour promouvoir une catégorie peu empruntée?
-
----
-
-## 📱 Utilisation Mobile
-
-BiblioSmart fonctionne parfaitement sur smartphone et tablette!
-
-**Navigation mobile**:
-```
-☰ Menu hamburger (en haut à gauche)
-├─ Tableau de bord
-├─ Catalogue
-├─ Gestion livres
-├─ Gestion users
-└─ Paramètres
-```
-
-**Avantages**:
-- Ajouter un livre directement depuis votre smartphone (photo de la couverture)
-- Marquer un retour pendant que vous êtes au comptoir
-- Consulter les stats en déplacement
+1. Go to **Analytics**
+2. Select period: "This month"
+3. Note:
+   - Number of loans
+   - New readers
+   - Popular categories
+4. Export report (PDF/CSV)
+5. Identify trends:
+   - Need for new books in a category?
+   - Campaign to promote an underutilized category?
 
 ---
 
-## ⌨️ Raccourcis Clavier (Ordinateur)
+## 📱 Mobile Usage
+
+BiblioSmart works perfectly on smartphones and tablets!
+
+**Mobile navigation**:
+```
+☰ Hamburger menu (top left)
+├─ Dashboard
+├─ Catalog
+├─ Book Management
+├─ User Management
+└─ Settings
+```
+
+**Advantages**:
+- Add a book directly from your smartphone (photo of the cover)
+- Mark a return while you're at the desk
+- Check stats on the go
+
+---
+
+## ⌨️ Keyboard Shortcuts (Desktop)
 
 **Navigation**:
-- `Ctrl + K` : Ouvrir la recherche rapide
-- `Ctrl + /` : Afficher les raccourcis
-- `Esc` : Fermer les modales
+- `Ctrl + K` : Open quick search
+- `Ctrl + /` : Show shortcuts
+- `Esc` : Close modals
 
 **Actions**:
-- `Ctrl + N` : Nouveau livre (sur page Livres)
-- `Ctrl + E` : Modifier (quand un livre est sélectionné)
-- `Ctrl + S` : Enregistrer (dans les formulaires)
+- `Ctrl + N` : New book (on Books page)
+- `Ctrl + E` : Edit (when a book is selected)
+- `Ctrl + S` : Save (in forms)
 
 ---
 
-## 🆘 Aide & Support
+## 🆘 Help & Support
 
-### En Cas de Problème
+### In Case of Problem
 
-**1. Consulter la FAQ**:
+**1. Check the FAQ**:
 https://bibliosmart.app/faq
 
-Questions fréquentes:
-- Comment réinitialiser mon mot de passe?
-- Comment supprimer un lecteur?
-- Comment exporter mes données?
-- Puis-je annuler mon abonnement?
+Frequent questions:
+- How to reset my password?
+- How to delete a reader?
+- How to export my data?
+- Can I cancel my subscription?
 
-**2. Tutoriels Vidéo**:
+**2. Video Tutorials**:
 https://bibliosmart.app/videos
 
-Vidéos courtes (2-5 min):
-- Démarrage rapide
-- Ajouter 100 livres en 10 minutes
-- Configurer les notifications
-- Lire les statistiques
+Short videos (2-5 min):
+- Quick start
+- Add 100 books in 10 minutes
+- Configure notifications
+- Read statistics
 
-**3. Contacter le Support**:
+**3. Contact Support**:
 
 **Email**: support@bibliosmart.app
-**Réponse**: < 4 heures (jours ouvrés)
+**Response**: < 4 hours (business days)
 
-**Slack** (Beta testeurs): #beta-support
-**Réponse**: En temps réel
+**Slack** (Beta testers): #beta-support
+**Response**: Real-time
 
-**Dans votre email, précisez**:
-- Votre nom et organisation
-- Le problème rencontré
-- Screenshots (si applicable)
-- Browser utilisé (Chrome, Safari, etc.)
-
----
-
-## ✅ Checklist: Mes Premiers Jours
-
-### Jour 1: Setup Initial
-- [ ] Première connexion réussie
-- [ ] Mot de passe changé
-- [ ] Tour de l'interface (15 min)
-- [ ] Ajout du premier livre manuellement
-
-### Jour 2-3: Import Catalogue
-- [ ] Création du CSV de votre catalogue
-- [ ] Import du CSV dans BiblioSmart
-- [ ] Vérification des livres importés
-- [ ] Correction des erreurs éventuelles
-
-### Jour 4-5: Configuration
-- [ ] Inviter vos collègues administrateurs
-- [ ] Configurer les informations de la bibliothèque
-- [ ] Paramétrer les notifications email
-- [ ] Tester l'inscription d'un lecteur
-
-### Semaine 2: Utilisation Quotidienne
-- [ ] Marquer des emprunts/retours
-- [ ] Ajouter de nouveaux livres
-- [ ] Consulter les statistiques
-- [ ] Explorer les analytics
-
-### Semaine 3-4: Optimisation
-- [ ] Analyser les livres jamais empruntés
-- [ ] Identifier les catégories populaires
-- [ ] Former les autres membres de l'équipe
-- [ ] Promouvoir le catalogue auprès des lecteurs
+**In your email, specify**:
+- Your name and organization
+- The problem encountered
+- Screenshots (if applicable)
+- Browser used (Chrome, Safari, etc.)
 
 ---
 
-## 💰 Plans & Limites
+## ✅ Checklist: My First Days
 
-### Votre Plan Actuel
+### Day 1: Initial Setup
+- [ ] First successful login
+- [ ] Password changed
+- [ ] Interface tour (15 min)
+- [ ] First book added manually
 
-Vérifier dans **Paramètres > Abonnement**:
+### Day 2-3: Catalog Import
+- [ ] Create CSV of your catalog
+- [ ] Import CSV into BiblioSmart
+- [ ] Verify imported books
+- [ ] Correct any errors
 
-**Plan TRIAL** (Beta testeurs):
-- ✅ Livres illimités
-- ✅ Utilisateurs illimités
-- ✅ Toutes les fonctionnalités
-- ✅ Support prioritaire
-- ⏰ Durée: Beta + 3 mois gratuits
+### Day 4-5: Configuration
+- [ ] Invite your admin colleagues
+- [ ] Configure library information
+- [ ] Set up email notifications
+- [ ] Test reader registration
 
-**Après la période gratuite**:
+### Week 2: Daily Usage
+- [ ] Mark loans/returns
+- [ ] Add new books
+- [ ] Check statistics
+- [ ] Explore analytics
 
-**Plan Basic - 29€/mois**:
-- 1,000 livres max
-- 3 administrateurs
-- 10 GB stockage
-- Support email
-
-**Plan Pro - 79€/mois** (Recommandé):
-- Livres illimités
-- 10 administrateurs
-- 50 GB stockage
-- Support prioritaire
-- Analytics avancés
-
-### Que se passe-t-il si je dépasse les limites?
-
-**Limites Soft** (Avertissement):
-- Email à 80% de la limite
-- Email à 95% de la limite
-
-**Limites Hard** (Blocage):
-- Impossible d'ajouter plus de livres
-- Invitation à upgrader vers plan supérieur
+### Week 3-4: Optimization
+- [ ] Analyze books never borrowed
+- [ ] Identify popular categories
+- [ ] Train other team members
+- [ ] Promote catalog to readers
 
 ---
 
-## 🔐 Sécurité & Confidentialité
+## 💰 Plans & Limits
 
-### Vos Données Sont Sécurisées
+### Your Current Plan
 
-✅ **Chiffrement**: HTTPS partout (SSL 256-bit)
-✅ **Authentification**: JWT avec bcrypt
-✅ **Isolation**: Vos données sont isolées des autres bibliothèques
-✅ **Backups**: Sauvegardes quotidiennes automatiques
-✅ **RGPD**: Conformité totale (données hébergées en Europe)
+Check in **Settings > Subscription**:
 
-### Bonnes Pratiques
+**TRIAL Plan** (Beta testers):
+- ✅ Unlimited books
+- ✅ Unlimited users
+- ✅ All features
+- ✅ Priority support
+- ⏰ Duration: Beta + 3 months free
 
-**Mot de passe**:
-- Minimum 8 caractères
-- Mélange majuscules/minuscules/chiffres
-- Unique (ne pas réutiliser)
-- Changement tous les 6 mois
+**After the free period**:
 
-**Compte**:
-- Ne jamais partager vos identifiants
-- Déconnexion après utilisation (ordinateurs partagés)
-- Signaler toute activité suspecte
+**Basic Plan - $29/month**:
+- 1,000 books max
+- 3 administrators
+- 10 GB storage
+- Email support
 
-### Export de Vos Données
+**Pro Plan - $79/month** (Recommended):
+- Unlimited books
+- 10 administrators
+- 50 GB storage
+- Priority support
+- Advanced analytics
 
-**À tout moment** (Paramètres > Export):
-- Exporter tout votre catalogue (CSV)
-- Exporter la liste des lecteurs
-- Exporter l'historique des emprunts
-- **Vos données vous appartiennent!**
+### What happens if I exceed the limits?
+
+**Soft Limits** (Warning):
+- Email at 80% of limit
+- Email at 95% of limit
+
+**Hard Limits** (Blocking):
+- Cannot add more books
+- Invitation to upgrade to higher plan
 
 ---
 
-## 📞 Contact & Communauté
+## 🔐 Security & Privacy
 
-### Rester Connecté
+### Your Data is Secure
 
-**Site Web**: https://bibliosmart.app
+✅ **Encryption**: HTTPS everywhere (SSL 256-bit)
+✅ **Authentication**: JWT with bcrypt
+✅ **Isolation**: Your data is isolated from other libraries
+✅ **Backups**: Daily automatic backups
+✅ **GDPR**: Full compliance (data hosted in Europe)
+
+### Best Practices
+
+**Password**:
+- Minimum 8 characters
+- Mix uppercase/lowercase/numbers
+- Unique (don't reuse)
+- Change every 6 months
+
+**Account**:
+- Never share your credentials
+- Logout after use (shared computers)
+- Report any suspicious activity
+
+### Export Your Data
+
+**At any time** (Settings > Export):
+- Export your entire catalog (CSV)
+- Export reader list
+- Export loan history
+- **Your data belongs to you!**
+
+---
+
+## 📞 Contact & Community
+
+### Stay Connected
+
+**Website**: https://bibliosmart.app
 **Email**: contact@bibliosmart.app
 **Twitter**: @BiblioSmartApp
 **LinkedIn**: BiblioSmart
 
-### Communauté Beta Testeurs
+### Beta Testers Community
 
-**Slack**: #beta-bibliothèques
-- Partager vos astuces
-- Poser des questions
-- Aider les autres
-- Être informé des nouveautés en avant-première
+**Slack**: #beta-libraries
+- Share your tips
+- Ask questions
+- Help others
+- Get early news about updates
 
 ### Newsletter
 
-S'inscrire pour recevoir:
-- Nouveautés produit (1x/mois)
-- Meilleures pratiques bibliothèques
-- Études de cas inspirantes
-- Offres exclusives
+Subscribe to receive:
+- Product updates (1x/month)
+- Library best practices
+- Inspiring case studies
+- Exclusive offers
 
 ---
 
-## 🚀 Aller Plus Loin
+## 🚀 Go Further
 
-### Ressources Avancées
+### Advanced Resources
 
-**Blog BiblioSmart**:
-- "10 astuces pour promouvoir votre catalogue"
-- "Analyser vos données pour mieux servir vos lecteurs"
-- "Créer des collections thématiques engageantes"
+**BiblioSmart Blog**:
+- "10 tips to promote your catalog"
+- "Analyze your data to better serve your readers"
+- "Create engaging thematic collections"
 
-**Webinaires mensuels** (gratuits):
-- Démonstrations de nouvelles features
-- Sessions Q&A
-- Invités experts en bibliothéconomie
+**Monthly Webinars** (free):
+- New feature demonstrations
+- Q&A sessions
+- Guest library experts
 
-### Devenir Ambassadeur
+### Become an Ambassador
 
-Vous adorez BiblioSmart?
+Love BiblioSmart?
 
-**Programme Ambassadeur**:
-- Parrainez d'autres bibliothèques
-- Obtenez 1 mois gratuit par parrainage
-- Badge spécial "Ambassadeur"
-- Accès early access aux nouvelles features
+**Ambassador Program**:
+- Refer other libraries
+- Get 1 month free per referral
+- Special "Ambassador" badge
+- Early access to new features
 
 ---
 
-## 📝 Donner Votre Feedback
+## 📝 Give Your Feedback
 
-Votre avis compte! 💙
+Your opinion matters! 💙
 
-**Formulaire de Feedback** (5 min):
+**Feedback Form** (5 min):
 https://forms.bibliosmart.app/feedback
 
-**Qu'est-ce qui nous intéresse?**:
-- Ce qui vous plaît ❤️
-- Ce qui vous frustre 😤
-- Les bugs rencontrés 🐛
-- Les features que vous souhaitez ⭐
+**What interests us?**:
+- What you like ❤️
+- What frustrates you 😤
+- Bugs encountered 🐛
+- Features you want ⭐
 
-**Chaque feedback compte** pour améliorer BiblioSmart!
-
----
-
-## 🎉 Bienvenue dans la Communauté BiblioSmart!
-
-Vous avez maintenant toutes les clés pour transformer votre bibliothèque! 📚✨
-
-**Besoin d'aide?** N'hésitez pas à nous contacter!
-
-Bonne gestion,
-L'équipe BiblioSmart 💙
+**Every feedback counts** to improve BiblioSmart!
 
 ---
 
-**Guide mis à jour**: Décembre 2024
+## 🎉 Welcome to the BiblioSmart Community!
+
+You now have all the keys to transform your library! 📚✨
+
+**Need help?** Don't hesitate to contact us!
+
+Happy managing,
+The BiblioSmart Team 💙
+
+---
+
+**Guide updated**: December 2024
 **Version**: Beta 1.0
-**PDF disponible**: https://bibliosmart.app/guides/user-guide.pdf
+**PDF available**: https://bibliosmart.app/guides/user-guide.pdf
