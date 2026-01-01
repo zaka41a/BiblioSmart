@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="frontend/public/favicon.png" alt="BiblioSmart Logo" width="200" />
+  <img src="logo-readme.png" alt="BiblioSmart Logo" width="200" />
 </div>
 
 <div align="center">
