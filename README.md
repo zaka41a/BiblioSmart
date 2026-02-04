@@ -17,7 +17,7 @@
 
 ---
 
-## 🚀 Why BiblioSmart?
+##  Why BiblioSmart?
 
 - **Modern reader experience** with animated catalog cards, immersive PDF reader, and free/paid access control.
 - **Ops cockpit** for librarians: book/user CRUD, analytics, settings, and SaaS-ready toggles.
@@ -38,7 +38,7 @@
 
 ---
 
-## 🌈 Feature Universe
+## 🚀 Feature Universe
 
 ### 📚 Patron Experience
 - Landing page with motion badges, KPI counters, testimonials hooks.
